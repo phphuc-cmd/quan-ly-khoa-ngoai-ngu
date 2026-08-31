@@ -1,0 +1,2461 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cổng Thông Tin & Quản Lý Khoa Ngoại Ngữ - BDU</title>
+  <meta name="description" content="Cổng thông tin và hệ thống quản trị Khoa Ngoại Ngữ Đại học Bình Dương (BDU): Học vụ sinh viên, Minh chứng Hub, Chuyên cần & Đào tạo, Nhiệm vụ & Sự kiện, NCKH, Analytics Dashboard và Báo cáo hành chính BDU." />
+  <meta property="og:title" content="Cổng Thông Tin & Quản Lý Khoa Ngoại Ngữ - BDU" />
+  <meta property="og:description" content="Cổng thông tin và hệ thống quản trị Khoa Ngoại Ngữ Đại học Bình Dương (BDU): Học vụ sinh viên, Minh chứng Hub, Chuyên cần & Đào tạo, Nhiệm vụ & Sự kiện, NCKH, Analytics Dashboard và Báo cáo hành chính BDU." />
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="/style.css">
+  
+  <!-- Font Awesome 6 Free / Pro -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Chart.js for Visual Analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  
+  <!-- SheetJS (XLSX) for Multi-sheet Excel Import & Export -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+  <!-- ======================================================= -->
+  <!-- MAIN SYSTEM LAYOUT WRAPPER (SIDEBAR TRÁI + NỘI DUNG PHẢI) -->
+  <!-- ======================================================= -->
+  <div class="bdu-app-layout">
+    
+    <!-- ======================================================= -->
+    <!-- 1. LEFT SIDEBAR NAVIGATION (THANH ĐIỀU HƯỚNG DỌC BÊN TRÁI) -->
+    <!-- ======================================================= -->
+    <aside class="bdu-sidebar" id="bduSidebar">
+      <!-- Sidebar Brand Header -->
+      <div class="bdu-sidebar-header">
+        <div class="bdu-sidebar-brand">
+          <div class="bdu-sidebar-logo">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div class="bdu-sidebar-brand-text">
+            <h2 class="bdu-brand-title">BDU SYSTEM</h2>
+            <span class="bdu-brand-subtitle">Khoa Ngoại Ngữ</span>
+          </div>
+        </div>
+        <button class="bdu-sidebar-mobile-close" id="btnCloseSidebarMobile" title="Đóng menu">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Sidebar Menu Items -->
+      <div class="bdu-sidebar-nav-scroll">
+        <div class="bdu-nav-section-title">DANH MỤC QUẢN TRỊ</div>
+        <ul class="bdu-sidebar-menu" id="mainNavTabs">
+          <li class="bdu-nav-item active" data-tab="tab-portal-students">
+            <a href="javascript:void(0)">
+              <i class="fa-solid fa-id-card"></i>
+              <span>1. Hồ Sơ Sinh Viên</span>
+              <span class="nav-counter-badge" id="navBadgePersonnel">20</span>
+            </a>
+          </li>
+          <li class="bdu-nav-item" data-tab="tab-evidence">
+            <a href="javascript:void(0)">
+              <i class="fa-solid fa-folder"></i>
+              <span>2. Kho Minh Chứng</span>
+              <span class="nav-counter-badge" id="navBadgeEvidence">6</span>
+            </a>
+          </li>
+          <li class="bdu-nav-item" data-tab="tab-training">
+            <a href="javascript:void(0)">
+              <i class="fa-solid fa-book-open"></i>
+              <span>3. Tiến Độ Đào Tạo</span>
+              <span class="nav-counter-badge" id="navBadgeCourses">5</span>
+            </a>
+          </li>
+          <li class="bdu-nav-item" data-tab="tab-tasks">
+            <a href="javascript:void(0)">
+              <i class="fa-solid fa-list-check"></i>
+              <span>4. Công Việc Đoàn - CLB</span>
+              <span class="nav-counter-badge" id="navBadgeTasks">6</span>
+            </a>
+          </li>
+          <li class="bdu-nav-item" data-tab="tab-research">
+            <a href="javascript:void(0)">
+              <i class="fa-solid fa-flask"></i>
+              <span>5. NCKH Sinh Viên</span>
+              <span class="nav-counter-badge" id="navBadgeResearch">4</span>
+            </a>
+          </li>
+          <li class="bdu-nav-item" data-tab="tab-dashboard">
+            <a href="javascript:void(0)">
+              <i class="fa-solid fa-chart-column"></i>
+              <span>6. Thống Kê Dashboard</span>
+            </a>
+          </li>
+          <li class="bdu-nav-item" data-tab="tab-reports">
+            <a href="javascript:void(0)">
+              <i class="fa-solid fa-file-lines"></i>
+              <span>7. Báo Cáo Hành Chính</span>
+            </a>
+          </li>
+          <li class="bdu-nav-item" data-tab="tab-forms">
+            <a href="javascript:void(0)">
+              <i class="fa-solid fa-folder-open"></i>
+              <span>8. Mẫu Giấy Tờ Hành Chính</span>
+              <span class="nav-counter-badge" id="navBadgeForms">15</span>
+            </a>
+          </li>
+          <li class="bdu-nav-item" data-tab="tab-ai-exam">
+            <a href="javascript:void(0)">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+              <span>9. Tạo Đề Thi AI (Chuẩn Khoa)</span>
+              <span class="badge-ai-pill">AI</span>
+            </a>
+          </li>
+        </ul>
+
+        <!-- KÊNH TRUYỀN THÔNG & KẾT NỐI KHOA NGOẠI NGỮ -->
+        <div class="bdu-nav-section-title bdu-sidebar-section-gap">KẾT NỐI & HỖ TRỢ KHOA</div>
+        
+        <!-- Invitation Follow Card -->
+        <div class="sidebar-follow-invite-card" id="sidebarFollowCard">
+          <div class="invite-banner-header">
+            <div class="invite-banner-icon-pulse">
+              <i class="fa-solid fa-bullhorn"></i>
+            </div>
+            <div class="invite-banner-title">
+              Thân mời các bạn sinh viên follow 2 fanpage của khoa nhé!
+            </div>
+          </div>
+
+          <div class="invite-links-container">
+            <!-- 1. Fanpage Khoa Ngoại Ngữ -->
+            <a href="https://www.facebook.com/khoangoaingu.bdu.edu.vn/" target="_blank" rel="noopener noreferrer" class="sidebar-portal-btn fb-khoa-btn" title="Truy cập Fanpage Khoa Ngoại Ngữ - ĐH Bình Dương">
+              <div class="portal-btn-icon fb-icon-bg">
+                <i class="fa-brands fa-facebook-f"></i>
+              </div>
+              <div class="portal-btn-info">
+                <div class="portal-btn-title">Khoa Ngoại Ngữ</div>
+                <div class="portal-btn-sub">Fanpage Chính Thức Khoa</div>
+              </div>
+              <span class="portal-btn-action"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+            </a>
+
+            <!-- 2. Fanpage Đoàn - Hội Khoa Ngoại ngữ -->
+            <a href="https://www.facebook.com/profile.php?id=61582207903606" target="_blank" rel="noopener noreferrer" class="sidebar-portal-btn fb-doan-btn" title="Truy cập Fanpage Đoàn - Hội Khoa Ngoại ngữ">
+              <div class="portal-btn-icon fb-doan-icon-bg">
+                <i class="fa-solid fa-users"></i>
+              </div>
+              <div class="portal-btn-info">
+                <div class="portal-btn-title">Đoàn - Hội Khoa Ngoại ngữ</div>
+                <div class="portal-btn-sub">Phong Trào & Hoạt Động SV</div>
+              </div>
+              <span class="portal-btn-action"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+            </a>
+
+            <!-- 3. Website Khoa Ngoại Ngữ -->
+            <a href="https://ngoaingu.bdu.edu.vn/" target="_blank" rel="noopener noreferrer" class="sidebar-portal-btn web-khoa-btn" title="Truy cập Cổng Thông Tin Website Khoa Ngoại Ngữ">
+              <div class="portal-btn-icon web-icon-bg">
+                <i class="fa-solid fa-globe"></i>
+              </div>
+              <div class="portal-btn-info">
+                <div class="portal-btn-title">Website Khoa Ngoại Ngữ</div>
+                <div class="portal-btn-sub">ngoaingu.bdu.edu.vn</div>
+              </div>
+              <span class="portal-btn-action"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Hotline Box -->
+        <div class="sidebar-hotline-box" id="sidebarHotlineBox">
+          <div class="sidebar-hotline-header">
+            <i class="fa-solid fa-headset text-emerald-400"></i>
+            <span>HOTLINE TƯ VẤN & HỖ TRỢ</span>
+          </div>
+          <div class="sidebar-hotline-list">
+            <a href="tel:0334034931" class="sidebar-hotline-item hotline-item-primary" title="Nhấn để gọi Hotline Khoa Ngoại Ngữ">
+              <div class="hotline-icon-circle mobile-circle"><i class="fa-solid fa-phone-volume"></i></div>
+              <div class="hotline-text-wrap">
+                <span class="hotline-number">0334 034 931</span>
+                <span class="hotline-desc">Hotline Khoa Ngoại Ngữ</span>
+              </div>
+              <span class="hotline-call-badge highlight-call">Gọi ngay</span>
+            </a>
+            <a href="tel:02743822058" class="sidebar-hotline-item" title="Nhấn để gọi Điện thoại bàn Khoa Ngoại Ngữ">
+              <div class="hotline-icon-circle"><i class="fa-solid fa-phone"></i></div>
+              <div class="hotline-text-wrap">
+                <span class="hotline-number">0274.3822.058</span>
+                <span class="hotline-desc">VP Khoa (Ext 111)</span>
+              </div>
+              <span class="hotline-call-badge">Gọi</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Footer -->
+      <div class="bdu-sidebar-footer">
+        <div class="sidebar-user-card" id="sidebarUserFooterCard">
+          <div class="sidebar-user-avatar">
+            <i class="fa-solid fa-building-columns"></i>
+          </div>
+          <div class="sidebar-user-meta">
+            <div class="sidebar-user-name">Đại Học Bình Dương</div>
+            <div class="sidebar-user-role">Cổng Thông Tin Khoa</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Sidebar Mobile Backdrop -->
+    <div class="bdu-sidebar-backdrop no-print" id="bduSidebarBackdrop"></div>
+
+    <!-- ======================================================= -->
+    <!-- 2. RIGHT MAIN CONTENT AREA                              -->
+    <!-- ======================================================= -->
+    <div class="bdu-content-area">
+      
+      <!-- TOP HEADER BAR (BỘ ĐIỀU HÀNH & CÔNG CỤ TOÀN HỆ THỐNG) -->
+      <header class="bdu-app-topbar no-print">
+        <div class="bdu-topbar-left">
+          <!-- Toggle Button for Sidebar (Mobile & Desktop) -->
+          <button class="bdu-menu-toggle-btn" id="btnToggleMobileMenu" title="Mở / Đóng thanh điều hướng bên trái">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          
+          <!-- Faculty Title Breadcrumb -->
+          <div class="bdu-topbar-brand-title">
+            <div class="bdu-topbar-main-title">TRƯỜNG ĐẠI HỌC BÌNH DƯƠNG • KHOA NGOẠI NGỮ</div>
+            <div class="bdu-topbar-sub-title" id="topbarActiveTabName">1. Hồ Sơ Sinh Viên & Cán Bộ Giảng Viên</div>
+          </div>
+        </div>
+
+        <div class="bdu-topbar-right">
+          <!-- Live Clock & Semester -->
+          <div class="bdu-topbar-clock-group">
+            <span class="bdu-semester-pill">
+              <i class="fa-regular fa-calendar-days"></i> HK1 (2026 - 2027)
+            </span>
+            <div class="bdu-live-time" id="systemLiveClock">
+              <i class="fa-regular fa-clock"></i> Đang tải...
+            </div>
+          </div>
+
+          <!-- Spotlight Search Trigger -->
+          <button class="bdu-spotlight-btn" id="btnOpenSpotlight" title="Tìm kiếm nhanh toàn hệ thống (Ctrl + K)">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Tìm nhanh...</span>
+            <kbd>Ctrl K</kbd>
+          </button>
+
+          <!-- Notification Bell -->
+          <div style="position: relative;">
+            <button class="bdu-tool-btn" id="btnToggleNotif" title="Cảnh báo học vụ & việc khẩn cấp">
+              <i class="fa-solid fa-bell"></i>
+              <span class="bdu-notif-badge" id="notifCountBadge">3</span>
+            </button>
+            
+            <!-- Notification Dropdown -->
+            <div class="bdu-notif-popover" id="notifPopover">
+              <div class="bdu-notif-header">
+                <span><i class="fa-solid fa-triangle-exclamation text-amber"></i> Cảnh Báo & Lịch Trình</span>
+                <button class="bdu-btn-text" id="btnClearNotifs">Đóng</button>
+              </div>
+              <div class="bdu-notif-list" id="notifList">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Master Multi-sheet Export -->
+          <button class="bdu-tool-btn btn-excel-tool" id="btnExportQuickMasterExcel" title="Xuất toàn bộ 5 bảng cơ sở dữ liệu vào 1 file Excel đa sheet">
+            <i class="fa-solid fa-file-excel"></i>
+            <span class="tool-label">Master Excel</span>
+          </button>
+
+          <!-- BGH Report Word Quick Action -->
+          <button class="bdu-tool-btn btn-word-tool" id="btnSubheaderReportWord" onclick="switchToTab('tab-reports')" title="Báo Cáo Ban Giám Hiệu (File Word & PDF chuẩn BDU)">
+            <i class="fa-solid fa-file-word"></i>
+            <span class="tool-label">Báo Cáo BGH</span>
+          </button>
+
+          <!-- Dark / Light Mode Switcher -->
+          <button class="bdu-tool-btn" id="btnToggleTheme" title="Chuyển chế độ Sáng / Tối">
+            <i class="fa-solid fa-moon" id="themeIcon"></i>
+          </button>
+
+          <!-- Data Backup & Restore -->
+          <button class="bdu-tool-btn" id="btnBackupData" title="Sao lưu dữ liệu JSON">
+            <i class="fa-solid fa-download"></i>
+          </button>
+          <input type="file" id="fileRestoreData" accept=".json" style="display: none;">
+          <button class="bdu-tool-btn" onclick="document.getElementById('fileRestoreData').click()" title="Phục hồi dữ liệu từ JSON">
+            <i class="fa-solid fa-upload"></i>
+          </button>
+
+          <!-- BDU SSO Authentication Container -->
+          <div id="bduAuthContainer" class="bdu-header-auth-wrap">
+            <!-- Dynamically populated by app.js -->
+          </div>
+        </div>
+      </header>
+
+      <!-- EMERGENCY ALERT BANNER (THÔNG BÁO KHẨN CẤP) -->
+      <div class="bdu-emergency-banner no-print" id="emergencyAlertBanner">
+        <div class="emergency-banner-inner">
+          <div class="emergency-badge-pulse">
+            <i class="fa-solid fa-triangle-exclamation"></i> 🚨 THÔNG BÁO KHẨN CẤP
+          </div>
+          <div class="emergency-content-text">
+            <span><strong>[HỌC VỤ & KHẢO THÍ]:</strong> Điều chỉnh hạn chót nộp Đề cương NCKH Sinh viên & Đăng ký Khảo thí Chuẩn đầu ra VSTEP B1-C1 Học kỳ 1 (2026 - 2027)</span>
+          </div>
+          <div class="emergency-actions-wrap">
+            <button class="btn-emergency-pdf" id="btnEmergencyPdfTrigger">
+              <i class="fa-solid fa-file-pdf"></i> Xem Quyết Định PDF Khẩn
+            </button>
+            <button class="btn-emergency-close" id="btnCloseEmergencyBanner" title="Đóng thông báo khẩn">&times;</button>
+          </div>
+        </div>
+      </div>
+
+  <!-- ======================================================= -->
+  <!-- 4. HERO BANNER SLIDER (THÔNG BÁO TUYỂN SINH & SỰ KIỆN) -->
+  <!-- ======================================================= -->
+  <section class="bdu-hero-slider-section no-print" id="heroBannerSection">
+    <div class="bdu-slider-container">
+      <div class="bdu-slider-track" id="sliderTrack">
+        <!-- Slide 1: Tuyển sinh Thạc sĩ & K28 -->
+        <div class="bdu-slide active">
+          <div class="bdu-slide-content">
+            <span class="bdu-slide-tag hot"><i class="fa-solid fa-fire"></i> TUYỂN SINH 2026</span>
+            <h2>Tuyển Sinh Thạc Sĩ & Cử Nhân Ngôn Ngữ Anh - Ngôn Ngữ Trung Quốc (K28)</h2>
+            <p>Khoa Ngoại Ngữ - Trường Đại học Bình Dương thông báo nhận hồ sơ xét tuyển chương trình đào tạo Thạc sĩ & Đại học chính quy năm học 2026 - 2027.</p>
+            <div class="bdu-slide-actions">
+              <button class="bdu-btn bdu-btn-danger" onclick="switchToTab('tab-portal-students')">
+                <i class="fa-solid fa-user-graduate"></i> Danh Sách Tân Sinh Viên
+              </button>
+              <button class="bdu-btn bdu-btn-secondary" onclick="switchToTab('tab-reports')">
+                <i class="fa-solid fa-file-word text-primary"></i> Báo Cáo BGH (Word)
+              </button>
+              <a href="https://www.bdu.edu.vn" target="_blank" class="bdu-btn bdu-btn-outline-light">
+                <i class="fa-solid fa-arrow-up-right-from-square"></i> Cổng Tuyển Sinh BDU
+              </a>
+            </div>
+          </div>
+          <div class="bdu-slide-graphic">
+            <i class="fa-solid fa-award slide-bg-icon"></i>
+            <div class="bdu-slide-badge">
+              <strong>100%</strong>
+              <span>Chuẩn Đầu Ra Quốc Tế</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: Cuộc thi Rung chuông vàng -->
+        <div class="bdu-slide">
+          <div class="bdu-slide-content">
+            <span class="bdu-slide-tag event"><i class="fa-solid fa-calendar-star"></i> SỰ KIỆN NỔI BẬT</span>
+            <h2>Cuộc Thi "Rung Chuông Vàng Tiếng Anh & Hán Ngữ 2026"</h2>
+            <p>Sân chơi học thuật quy mô toàn trường do CLB Tiếng Anh (ETC) phối hợp cùng Đoàn Khoa Ngoại Ngữ BDU tổ chức. Tổng giải thưởng lên đến 20.000.000 VNĐ.</p>
+            <div class="bdu-slide-actions">
+              <button class="bdu-btn bdu-btn-amber" onclick="switchToTab('tab-tasks')">
+                <i class="fa-solid fa-clipboard-list"></i> Xem Kế Hoạch Tổ Chức
+              </button>
+              <button class="bdu-btn bdu-btn-outline-light" onclick="switchToTab('tab-evidence')">
+                <i class="fa-solid fa-images"></i> Kho Minh Chứng 5W
+              </button>
+            </div>
+          </div>
+          <div class="bdu-slide-graphic">
+            <i class="fa-solid fa-bell slide-bg-icon"></i>
+            <div class="bdu-slide-badge">
+              <strong>+15 ĐRL</strong>
+              <span>Cộng Điểm Rèn Luyện</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3: NCKH Sinh viên -->
+        <div class="bdu-slide">
+          <div class="bdu-slide-content">
+            <span class="bdu-slide-tag research"><i class="fa-solid fa-microscope"></i> NGHIÊN CỨU KHOA HỌC</span>
+            <h2>Hội Nghị Nghiên Cứu Khoa Học Sinh Viên & Đổi Mới Sáng Tạo 2026</h2>
+            <p>Tuyên dương 04 đề tài nghiên cứu xuất sắc về ứng dụng Trí tuệ Nhân tạo (AI) trong biên dịch và phương pháp tiếp cận đa ngôn ngữ hiện đại.</p>
+            <div class="bdu-slide-actions">
+              <button class="bdu-btn bdu-btn-primary" onclick="switchToTab('tab-research')">
+                <i class="fa-solid fa-flask"></i> Danh Sách Đề Tài NCKH
+              </button>
+              <button class="bdu-btn bdu-btn-outline-light" onclick="switchToTab('tab-reports')">
+                <i class="fa-solid fa-file-lines"></i> Báo Cáo Tổng Hợp BDU
+              </button>
+            </div>
+          </div>
+          <div class="bdu-slide-graphic">
+            <i class="fa-solid fa-book-open-reader slide-bg-icon"></i>
+            <div class="bdu-slide-badge">
+              <strong>04 Đề Tài</strong>
+              <span>Cấp Trường & Cấp Khoa</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slider Controls -->
+      <button class="bdu-slider-arrow prev" id="sliderPrevBtn" title="Slide trước"><i class="fa-solid fa-chevron-left"></i></button>
+      <button class="bdu-slider-arrow next" id="sliderNextBtn" title="Slide tiếp theo"><i class="fa-solid fa-chevron-right"></i></button>
+      
+      <div class="bdu-slider-dots" id="sliderDots">
+        <span class="dot active" data-index="0"></span>
+        <span class="dot" data-index="1"></span>
+        <span class="dot" data-index="2"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================= -->
+  <!-- 5. MAIN CONTENT WRAPPER (7 TABS INTERFACE)              -->
+  <!-- ======================================================= -->
+  <main class="bdu-main-wrapper">
+
+    <!-- ===================================================== -->
+    <!-- TAB 1: TRUNG TÂM QUẢN LÝ NHÂN SỰ TOÀN DIỆN (GV - CTV - SV) -->
+    <!-- ===================================================== -->
+    <section id="tab-portal-students" class="bdu-tab-pane active">
+      <!-- Portal News & Services Widgets Row -->
+      <div class="bdu-portal-widgets-grid no-print">
+        <!-- News Widget Card -->
+        <div class="bdu-widget-card news-card">
+          <div class="widget-header">
+            <h3><i class="fa-solid fa-newspaper text-primary"></i> Tin Tức & Học Vụ Khoa Ngoại Ngữ</h3>
+            <span class="badge-new-red"><i class="fa-solid fa-bell"></i> THÔNG BÁO MỚI</span>
+          </div>
+
+          <!-- News Search & Category Filter Toolbar -->
+          <div class="news-search-toolbar" style="padding: 10px 14px 4px; display: flex; gap: 8px; flex-wrap: wrap;">
+            <div style="position: relative; flex: 1; min-width: 180px;">
+              <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 10px; top: 10px; color: var(--text-muted); font-size: 12px;"></i>
+              <input type="text" id="inputSearchNews" class="bdu-form-input" style="padding-left: 28px; height: 34px; font-size: 12.5px;" placeholder="Tìm kiếm tin tức, thông báo...">
+            </div>
+            <select id="selectFilterNewsCategory" class="bdu-form-select" style="width: auto; height: 34px; font-size: 12px; padding: 4px 8px;">
+              <option value="ALL">Tất cả danh mục</option>
+              <option value="Học Vụ">Học Vụ & Lịch Thi</option>
+              <option value="Khảo Thí">Khảo Thí & VSTEP</option>
+              <option value="Tuyển Sinh">Tuyển Sinh 2026</option>
+              <option value="NCKH">NCKH & Hợp Tác</option>
+              <option value="Đoàn Hội">Đoàn Hội & CLB</option>
+            </select>
+          </div>
+
+          <div class="widget-news-list" id="widgetNewsListContainer">
+            <!-- Dynamically populated via app.js -->
+          </div>
+        </div>
+
+        <!-- Quick Links Widget -->
+        <div class="bdu-widget-card links-card">
+          <div class="widget-header">
+            <h3><i class="fa-solid fa-compass text-amber"></i> Cổng Thao Tác & Dịch Vụ Nhanh</h3>
+          </div>
+          <div class="quick-links-grid">
+            <a href="javascript:void(0)" onclick="switchPersonnelSubtab('subpane-lecturers')" class="quick-link-btn">
+              <i class="fa-solid fa-chalkboard-user"></i>
+              <span>Hồ Sơ Giảng Viên</span>
+            </a>
+            <a href="javascript:void(0)" onclick="switchPersonnelSubtab('subpane-collaborators')" class="quick-link-btn">
+              <i class="fa-solid fa-handshake"></i>
+              <span>Cộng Tác Viên & TA</span>
+            </a>
+            <a href="javascript:void(0)" onclick="switchPersonnelSubtab('subpane-students')" class="quick-link-btn">
+              <i class="fa-solid fa-user-graduate"></i>
+              <span>Sinh Viên Toàn Khoa</span>
+            </a>
+            <a href="javascript:void(0)" onclick="switchPersonnelSubtab('subpane-matrix')" class="quick-link-btn">
+              <i class="fa-solid fa-diagram-project"></i>
+              <span>Ma Trận Cố Vấn</span>
+            </a>
+            <a href="javascript:void(0)" onclick="switchToTab('tab-training')" class="quick-link-btn">
+              <i class="fa-solid fa-user-check"></i>
+              <span>Tiến Độ Giảng Dạy</span>
+            </a>
+            <a href="javascript:void(0)" onclick="switchToTab('tab-reports')" class="quick-link-btn" style="border-color: var(--bdu-primary); background: rgba(0, 95, 135, 0.06);">
+              <i class="fa-solid fa-file-word text-primary"></i>
+              <span>Báo Cáo BGH (Word)</span>
+            </a>
+            <a href="javascript:void(0)" onclick="switchToTab('tab-forms')" class="quick-link-btn" style="border-color: var(--bdu-amber); background: rgba(245, 158, 11, 0.06);">
+              <i class="fa-solid fa-folder-open text-amber"></i>
+              <span>Mẫu Giấy Tờ BDU</span>
+            </a>
+            <a href="javascript:void(0)" onclick="switchToTab('tab-ai-exam')" class="quick-link-btn" style="border-color: var(--bdu-primary); background: rgba(0, 95, 135, 0.06);">
+              <i class="fa-solid fa-wand-magic-sparkles text-amber"></i>
+              <span>Tạo Đề Thi AI</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================== -->
+      <!-- EXECUTIVE REPORT BANNER: BÁO CÁO BAN GIÁM HIỆU BDU    -->
+      <!-- ===================================================== -->
+      <div class="bdu-bgh-report-showcase no-print" id="bghReportShowcase">
+        <div class="bgh-showcase-header">
+          <div class="bgh-showcase-title-wrap">
+            <div class="bgh-showcase-badges">
+              <span class="badge badge-hot"><i class="fa-solid fa-file-word"></i> BÁO CÁO BAN GIÁM HIỆU</span>
+              <span class="bgh-doc-badge">Số: 128/BC-KNN-ĐHBD</span>
+              <span class="bgh-doc-badge live-pulse"><i class="fa-solid fa-circle text-success" style="font-size: 8px;"></i> Cập nhật thời gian thực</span>
+              <span class="bgh-doc-badge" id="bghCustomSavedBadge" style="display: none; background: rgba(0, 95, 135, 0.1); color: var(--bdu-primary); border-color: var(--bdu-primary);"><i class="fa-solid fa-check"></i> Đã lưu bản tùy chỉnh</span>
+            </div>
+            <h3>Báo Cáo Tổng Hợp Công Tác Học Vụ, Đào Tạo & NCKH Trình Ban Giám Hiệu BDU</h3>
+            <p>Văn bản hành chính chuẩn quy cách BDU tích hợp số liệu đồng bộ thời gian thực từ 5 phân hệ dữ liệu. Hỗ trợ tùy chỉnh nội dung, xuất file Microsoft Word (.doc) và in ấn chuẩn A4.</p>
+          </div>
+          <div class="bgh-showcase-actions">
+            <button class="bdu-btn bdu-btn-primary" id="btnMainPageDownloadWord" title="Tải file Word .doc chuẩn định dạng BDU về máy">
+              <i class="fa-solid fa-file-word"></i> Tải File Word (.doc)
+            </button>
+            <button class="bdu-btn bdu-btn-secondary" id="btnMainPageOpenEdit" onclick="openReportWithEditMode()" title="Mở trang Báo cáo và kích hoạt ngay chế độ chỉnh sửa trực tiếp">
+              <i class="fa-solid fa-pen-to-square text-primary"></i> Chỉnh Sửa Báo Cáo
+            </button>
+            <button class="bdu-btn bdu-btn-secondary" id="btnMainPageCopyWord" title="Sao chép toàn bộ văn bản để dán vào Microsoft Word">
+              <i class="fa-solid fa-copy text-primary"></i> Copy Clipboard
+            </button>
+            <button class="bdu-btn bdu-btn-secondary" id="btnMainPageOpenReportTab" onclick="switchToTab('tab-reports')" title="Mở trang Báo cáo toàn văn khổ A4">
+              <i class="fa-solid fa-file-signature text-primary"></i> Xem Khổ A4
+            </button>
+            <button class="bdu-btn bdu-btn-secondary" id="btnMainPagePrintReport" title="In trực tiếp hoặc Lưu dưới dạng PDF chuẩn khổ A4">
+              <i class="fa-solid fa-print"></i> In / Xuất PDF
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Indicators Strip -->
+        <div class="bgh-live-indicators-strip">
+          <div class="bgh-stat-chip">
+            <i class="fa-solid fa-user-graduate text-primary"></i>
+            <div>
+              <span class="bgh-stat-val" id="bghStatStu">8 Sinh viên</span>
+              <span class="bgh-stat-label">Học vụ & Tỷ lệ 1:18</span>
+            </div>
+          </div>
+          <div class="bgh-stat-chip">
+            <i class="fa-solid fa-user-check text-success"></i>
+            <div>
+              <span class="bgh-stat-val" id="bghStatAttendance">89%</span>
+              <span class="bgh-stat-label">Chuyên Cần Đào Tạo</span>
+            </div>
+          </div>
+          <div class="bgh-stat-chip">
+            <i class="fa-brands fa-google-drive text-amber"></i>
+            <div>
+              <span class="bgh-stat-val" id="bghStatEvidence">6 Minh chứng</span>
+              <span class="bgh-stat-label">+320 Điểm Rèn Luyện</span>
+            </div>
+          </div>
+          <div class="bgh-stat-chip">
+            <i class="fa-solid fa-flask text-danger"></i>
+            <div>
+              <span class="bgh-stat-val" id="bghStatResearch">4 Đề tài NCKH</span>
+              <span class="bgh-stat-label">Cấp Khoa & Cấp Trường</span>
+            </div>
+          </div>
+          <div class="bgh-stat-chip">
+            <i class="fa-solid fa-list-check text-primary"></i>
+            <div>
+              <span class="bgh-stat-val" id="bghStatTasks">6/6 Nhiệm vụ</span>
+              <span class="bgh-stat-label">Tiến Độ 100%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Inline Quick Preview Collapsible -->
+        <div class="bgh-preview-toggle-bar" id="btnToggleBghInlinePreview">
+          <span><i class="fa-solid fa-eye text-primary"></i> Xem nhanh toàn văn dự thảo Báo Cáo BGH trực tiếp trên trang chính (Nhấn để Mở / Đóng)</span>
+          <i class="fa-solid fa-chevron-down" id="iconBghPreviewToggle"></i>
+        </div>
+        <div class="bgh-inline-preview-content" id="bghInlinePreviewContent" style="display: none;">
+          <div class="bgh-inline-paper" id="bghInlinePaperTarget">
+            <!-- Dynamically populated from state -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Personnel Overview KPI Cards -->
+      <div class="bdu-personnel-kpi-grid no-print">
+        <!-- KPI 1: Giảng Viên Cơ Hữu -->
+        <div class="bdu-kpi-card-interactive active" id="kpiCardLecturers" onclick="switchPersonnelSubtab('subpane-lecturers')">
+          <div class="bdu-kpi-icon lecturer">
+            <i class="fa-solid fa-chalkboard-user"></i>
+          </div>
+          <div class="bdu-kpi-info">
+            <div class="bdu-kpi-label">Giảng Viên Cơ Hữu</div>
+            <div class="bdu-kpi-value"><span id="kpiCountLecturers">6</span> <small style="font-size: 13px; font-weight: 500; color: var(--text-muted);">Cán bộ</small></div>
+            <div class="bdu-kpi-sub" id="kpiSubLecturers">100% Trình độ ThS trở lên (3 TS, 1 PGS)</div>
+          </div>
+        </div>
+
+        <!-- KPI 2: Cộng Tác Viên & Thỉnh Giảng -->
+        <div class="bdu-kpi-card-interactive" id="kpiCardCollaborators" onclick="switchPersonnelSubtab('subpane-collaborators')">
+          <div class="bdu-kpi-icon collaborator">
+            <i class="fa-solid fa-handshake"></i>
+          </div>
+          <div class="bdu-kpi-info">
+            <div class="bdu-kpi-label">Cộng Tác Viên & Thỉnh Giảng</div>
+            <div class="bdu-kpi-value"><span id="kpiCountCollaborators">6</span> <small style="font-size: 13px; font-weight: 500; color: var(--text-muted);">Nhân sự</small></div>
+            <div class="bdu-kpi-sub" id="kpiSubCollaborators">GV thỉnh giảng, Trợ giảng TA & Chuyên gia</div>
+          </div>
+        </div>
+
+        <!-- KPI 3: Sinh Viên Toàn Khoa -->
+        <div class="bdu-kpi-card-interactive" id="kpiCardStudents" onclick="switchPersonnelSubtab('subpane-students')">
+          <div class="bdu-kpi-icon student">
+            <i class="fa-solid fa-user-graduate"></i>
+          </div>
+          <div class="bdu-kpi-info">
+            <div class="bdu-kpi-label">Sinh Viên Toàn Khoa</div>
+            <div class="bdu-kpi-value"><span id="kpiCountStudents">8</span> <small style="font-size: 13px; font-weight: 500; color: var(--text-muted);">Hồ sơ</small></div>
+            <div class="bdu-kpi-sub" id="kpiSubStudents">Khóa K25, K26, K27, K28 (4 Chuyên ngành)</div>
+          </div>
+        </div>
+
+        <!-- KPI 4: Ma Trận Cố Vấn & Tỷ Lệ -->
+        <div class="bdu-kpi-card-interactive" id="kpiCardMatrix" onclick="switchPersonnelSubtab('subpane-matrix')">
+          <div class="bdu-kpi-icon matrix">
+            <i class="fa-solid fa-diagram-project"></i>
+          </div>
+          <div class="bdu-kpi-info">
+            <div class="bdu-kpi-label">Tỷ Lệ Giảng Viên / SV</div>
+            <div class="bdu-kpi-value">1 : 18 <small style="font-size: 13px; font-weight: 500; color: var(--bdu-green);">Đạt chuẩn</small></div>
+            <div class="bdu-kpi-sub">100% Lớp có Cố vấn học tập trực tiếp</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Personnel Sub-tabs Navigation Bar -->
+      <div class="bdu-subtabs-nav-bar no-print">
+        <ul class="bdu-subtabs-list">
+          <li>
+            <button class="bdu-subtab-btn active" id="btnSubtabLecturers" onclick="switchPersonnelSubtab('subpane-lecturers')">
+              <i class="fa-solid fa-chalkboard-user"></i>
+              <span>1. Giảng Viên Cơ Hữu</span>
+              <span class="bdu-subtab-badge" id="badgeSubtabLecturers">6</span>
+            </button>
+          </li>
+          <li>
+            <button class="bdu-subtab-btn" id="btnSubtabCollaborators" onclick="switchPersonnelSubtab('subpane-collaborators')">
+              <i class="fa-solid fa-handshake"></i>
+              <span>2. Cộng Tác Viên & Thỉnh Giảng</span>
+              <span class="bdu-subtab-badge" id="badgeSubtabCollaborators">6</span>
+            </button>
+          </li>
+          <li>
+            <button class="bdu-subtab-btn" id="btnSubtabStudents" onclick="switchPersonnelSubtab('subpane-students')">
+              <i class="fa-solid fa-user-graduate"></i>
+              <span>3. Hồ Sơ Sinh Viên Toàn Khoa</span>
+              <span class="bdu-subtab-badge" id="badgeSubtabStudents">8</span>
+            </button>
+          </li>
+          <li>
+            <button class="bdu-subtab-btn" id="btnSubtabMatrix" onclick="switchPersonnelSubtab('subpane-matrix')">
+              <i class="fa-solid fa-diagram-project"></i>
+              <span>4. Ma Trận Cố Vấn & Phân Công Học Vụ</span>
+            </button>
+          </li>
+        </ul>
+
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <button class="bdu-btn bdu-btn-secondary" onclick="exportCurrentPersonnelTab()" title="Xuất dữ liệu tab nhân sự đang xem ra file Excel">
+            <i class="fa-solid fa-file-excel text-success"></i> Xuất Excel Tab Này
+          </button>
+        </div>
+      </div>
+
+      <!-- ===================================================== -->
+      <!-- SUB-PANE 1: GIẢNG VIÊN CƠ HỮU (FACULTY & CORE STAFF)   -->
+      <!-- ===================================================== -->
+      <div id="subpane-lecturers" class="bdu-subpane active">
+        <div class="bdu-section-panel">
+          <div class="bdu-panel-title-bar">
+            <div>
+              <h2><i class="fa-solid fa-chalkboard-user text-primary"></i> Danh Sách Cán Bộ Giảng Viên Cơ Hữu Khoa Ngoại Ngữ</h2>
+              <p>Hồ sơ đội ngũ giảng viên, học hàm học vị, phân công giảng dạy học phần, cố vấn học tập (GVCN) và chủ nhiệm NCKH</p>
+            </div>
+            <div class="panel-right-summary">
+              <span class="summary-chip" id="lecturerTotalBadge">6 Giảng Viên</span>
+              <span class="summary-chip" style="background: var(--bdu-primary-light); color: var(--bdu-primary);">
+                <i class="fa-solid fa-award"></i> 4 Tiến Sĩ / PGS
+              </span>
+            </div>
+          </div>
+
+          <!-- Lecturer Toolbar Bar -->
+          <div class="bdu-toolbar-bar no-print">
+            <div class="bdu-toolbar-filters">
+              <!-- Department Filter -->
+              <div class="bdu-filter-item">
+                <label><i class="fa-solid fa-filter"></i> Bộ Môn:</label>
+                <select id="filterLecturerDept" class="bdu-form-select">
+                  <option value="ALL">Tất cả bộ môn</option>
+                  <option value="Bộ môn Ngôn ngữ Anh">Bộ môn Ngôn ngữ Anh</option>
+                  <option value="Bộ môn Ngôn ngữ Trung Quốc">Bộ môn Ngôn ngữ Trung Quốc</option>
+                  <option value="Bộ môn Ngôn ngữ Hàn Quốc">Bộ môn Ngôn ngữ Hàn Quốc</option>
+                  <option value="Bộ môn Ngôn ngữ Nhật Bản">Bộ môn Ngôn ngữ Nhật Bản</option>
+                  <option value="Bộ môn Kỹ năng & Thực hành">Bộ môn Kỹ năng & Thực hành</option>
+                </select>
+              </div>
+
+              <!-- Degree Filter -->
+              <div class="bdu-filter-item">
+                <label>Học Vị:</label>
+                <select id="filterLecturerDegree" class="bdu-form-select">
+                  <option value="ALL">Tất cả học vị</option>
+                  <option value="PGS.TS.">PGS.TS.</option>
+                  <option value="TS.">Tiến sĩ (TS.)</option>
+                  <option value="ThS.">Thạc sĩ (ThS.)</option>
+                </select>
+              </div>
+
+              <!-- Status Filter -->
+              <div class="bdu-filter-item">
+                <label>Trạng Thái:</label>
+                <select id="filterLecturerStatus" class="bdu-form-select">
+                  <option value="ALL">Tất cả trạng thái</option>
+                  <option value="Đang công tác">Đang công tác</option>
+                  <option value="Đang làm NCS">Đang làm NCS / Nâng cao</option>
+                  <option value="Nghỉ phép">Nghỉ phép / Công tác xa</option>
+                </select>
+              </div>
+
+              <!-- Search Input -->
+              <div class="bdu-toolbar-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchLecturer" class="bdu-form-input" placeholder="Tìm tên giảng viên, mã CB, email, học phần...">
+              </div>
+            </div>
+
+            <div class="bdu-toolbar-actions">
+              <!-- Excel Import -->
+              <input type="file" id="fileImportLecturerExcel" accept=".xlsx, .xls, .csv" style="display: none;">
+              <button class="bdu-btn bdu-btn-secondary" onclick="document.getElementById('fileImportLecturerExcel').click()" title="Đọc danh sách giảng viên từ Excel">
+                <i class="fa-solid fa-file-import text-success"></i> Nạp Excel
+              </button>
+
+              <!-- Excel Export -->
+              <button class="bdu-btn bdu-btn-secondary" id="btnExportLecturerExcel" title="Xuất danh sách giảng viên ra Excel">
+                <i class="fa-solid fa-file-excel text-success"></i> Xuất Excel
+              </button>
+
+              <!-- Add Lecturer Modal -->
+              <button class="bdu-btn bdu-btn-primary" id="btnOpenAddLecturer">
+                <i class="fa-solid fa-user-plus"></i> Thêm Giảng Viên
+              </button>
+            </div>
+          </div>
+
+          <!-- Lecturer Cards Grid Container -->
+          <div class="bdu-student-cards-grid" id="lecturerGrid">
+            <!-- Dynamically Rendered by app.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================== -->
+      <!-- SUB-PANE 2: CỘNG TÁC VIÊN & THỈNH GIẢNG (COLLABORATORS) -->
+      <!-- ===================================================== -->
+      <div id="subpane-collaborators" class="bdu-subpane">
+        <div class="bdu-section-panel">
+          <div class="bdu-panel-title-bar">
+            <div>
+              <h2><i class="fa-solid fa-handshake text-amber"></i> Đội Ngũ Giảng Viên Thỉnh Giảng, Trợ Giảng (TA) & Cộng Tác Viên</h2>
+              <p>Quản lý đội ngũ thỉnh giảng doanh nghiệp, trợ giảng hỗ trợ học tập, CTV Đoàn - Hội và đối tác đào tạo liên kết</p>
+            </div>
+            <div class="panel-right-summary">
+              <span class="summary-chip" id="collaboratorTotalBadge">6 Cộng Tác Viên</span>
+              <span class="summary-chip" style="background: var(--bdu-amber-light); color: #b45309;">
+                <i class="fa-solid fa-briefcase"></i> Doanh Nghiệp & Đối Tác
+              </span>
+            </div>
+          </div>
+
+          <!-- Collaborator Toolbar Bar -->
+          <div class="bdu-toolbar-bar no-print">
+            <div class="bdu-toolbar-filters">
+              <!-- Role Type Filter -->
+              <div class="bdu-filter-item">
+                <label><i class="fa-solid fa-filter"></i> Phân Loại:</label>
+                <select id="filterCollabRole" class="bdu-form-select">
+                  <option value="ALL">Tất cả phân loại</option>
+                  <option value="Giảng viên thỉnh giảng">Giảng viên thỉnh giảng</option>
+                  <option value="Trợ giảng (TA)">Trợ giảng học thuật (TA)</option>
+                  <option value="Chuyên gia Doanh nghiệp">Chuyên gia Doanh nghiệp / Diễn giả</option>
+                  <option value="CTV Đoàn Hội / CLB">CTV Đoàn Hội & CLB ETC</option>
+                </select>
+              </div>
+
+              <!-- Contract Status Filter -->
+              <div class="bdu-filter-item">
+                <label>Hợp Đồng:</label>
+                <select id="filterCollabContract" class="bdu-form-select">
+                  <option value="ALL">Tất cả trạng thái</option>
+                  <option value="Đang hiệu lực">Đang hiệu lực</option>
+                  <option value="Chờ gia hạn">Chờ gia hạn</option>
+                  <option value="Hoàn thành kỳ">Hoàn thành kỳ</option>
+                </select>
+              </div>
+
+              <!-- Rating Filter -->
+              <div class="bdu-filter-item">
+                <label>Đánh Giá:</label>
+                <select id="filterCollabRating" class="bdu-form-select">
+                  <option value="ALL">Tất cả đánh giá</option>
+                  <option value="Xuất sắc">Xuất sắc</option>
+                  <option value="Tốt">Tốt</option>
+                  <option value="Khá">Khá</option>
+                </select>
+              </div>
+
+              <!-- Search Input -->
+              <div class="bdu-toolbar-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchCollaborator" class="bdu-form-input" placeholder="Tìm tên CTV, đơn vị công tác, học phần hỗ trợ...">
+              </div>
+            </div>
+
+            <div class="bdu-toolbar-actions">
+              <!-- Excel Import -->
+              <input type="file" id="fileImportCollabExcel" accept=".xlsx, .xls, .csv" style="display: none;">
+              <button class="bdu-btn bdu-btn-secondary" onclick="document.getElementById('fileImportCollabExcel').click()" title="Đọc danh sách cộng tác viên từ Excel">
+                <i class="fa-solid fa-file-import text-success"></i> Nạp Excel
+              </button>
+
+              <!-- Excel Export -->
+              <button class="bdu-btn bdu-btn-secondary" id="btnExportCollabExcel" title="Xuất danh sách cộng tác viên ra Excel">
+                <i class="fa-solid fa-file-excel text-success"></i> Xuất Excel
+              </button>
+
+              <!-- Add Collaborator Modal -->
+              <button class="bdu-btn bdu-btn-primary" id="btnOpenAddCollaborator">
+                <i class="fa-solid fa-user-plus"></i> Thêm Cộng Tác Viên
+              </button>
+            </div>
+          </div>
+
+          <!-- Collaborator Cards Grid Container -->
+          <div class="bdu-student-cards-grid" id="collaboratorGrid">
+            <!-- Dynamically Rendered by app.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================== -->
+      <!-- SUB-PANE 3: HỒ SƠ SINH VIÊN TOÀN KHOA (ALL STUDENTS)    -->
+      <!-- ===================================================== -->
+      <div id="subpane-students" class="bdu-subpane">
+        <div class="bdu-section-panel">
+          <div class="bdu-panel-title-bar">
+            <div>
+              <h2><i class="fa-solid fa-id-card-clip text-primary"></i> Quản Lý Danh Sách Sinh Viên Khoa Ngoại Ngữ</h2>
+              <p>Hồ sơ sinh viên các khóa K25, K26, K27, K28, GPA tích lũy, phân công Cố vấn học tập (GVCN) và cảnh báo học vụ</p>
+            </div>
+            <div class="panel-right-summary">
+              <span class="summary-chip" id="studentTotalBadge">8 Sinh Viên</span>
+              <span class="summary-chip-warning"><i class="fa-solid fa-triangle-exclamation"></i> GPA &lt; 2.0: Cảnh Báo</span>
+            </div>
+          </div>
+
+          <!-- Filter Toolbar -->
+          <div class="bdu-toolbar-bar no-print">
+            <div class="bdu-toolbar-filters">
+              <!-- Cohort Filter -->
+              <div class="bdu-filter-item">
+                <label><i class="fa-solid fa-filter"></i> Khóa:</label>
+                <select id="filterStudentCohort" class="bdu-form-select">
+                  <option value="ALL">Tất cả khóa</option>
+                  <option value="K28">Khóa K28 (2024 - 2028)</option>
+                  <option value="K27">Khóa K27 (2023 - 2027)</option>
+                  <option value="K26">Khóa K26 (2022 - 2026)</option>
+                  <option value="K25">Khóa K25 (2021 - 2025)</option>
+                </select>
+              </div>
+
+              <!-- Major Filter -->
+              <div class="bdu-filter-item">
+                <label>Ngành:</label>
+                <select id="filterStudentMajor" class="bdu-form-select">
+                  <option value="ALL">Tất cả chuyên ngành</option>
+                  <option value="Ngôn ngữ Anh">Ngôn ngữ Anh</option>
+                  <option value="Ngôn ngữ Trung">Ngôn ngữ Trung</option>
+                  <option value="Ngôn ngữ Hàn">Ngôn ngữ Hàn</option>
+                  <option value="Ngôn ngữ Nhật">Ngôn ngữ Nhật</option>
+                </select>
+              </div>
+
+              <!-- Status Filter -->
+              <div class="bdu-filter-item">
+                <label>Trạng thái:</label>
+                <select id="filterStudentStatus" class="bdu-form-select">
+                  <option value="ALL">Tất cả trạng thái</option>
+                  <option value="Đang học">Đang học</option>
+                  <option value="Bằng khen">Bằng khen (Giỏi/XS)</option>
+                  <option value="Cảnh báo">Cảnh báo học vụ</option>
+                  <option value="Nghỉ học">Nghỉ học / Bảo lưu</option>
+                </select>
+              </div>
+
+              <!-- Search Input -->
+              <div class="bdu-toolbar-search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchStudent" class="bdu-form-input" placeholder="Tìm tên SV, MSSV, GVCN, Lớp...">
+              </div>
+            </div>
+
+            <div class="bdu-toolbar-actions">
+              <!-- Excel Import -->
+              <input type="file" id="fileImportStudentExcel" accept=".xlsx, .xls, .csv" style="display: none;">
+              <button class="bdu-btn bdu-btn-secondary" onclick="document.getElementById('fileImportStudentExcel').click()" title="Đọc danh sách sinh viên từ file Excel">
+                <i class="fa-solid fa-file-import text-success"></i> Nạp Excel
+              </button>
+
+              <!-- Excel Export -->
+              <button class="bdu-btn bdu-btn-secondary" id="btnExportStudentExcel" title="Xuất danh sách sinh viên ra Excel">
+                <i class="fa-solid fa-file-excel text-success"></i> Xuất Excel
+              </button>
+
+              <!-- Add Student Modal -->
+              <button class="bdu-btn bdu-btn-primary" id="btnOpenAddStudent">
+                <i class="fa-solid fa-user-plus"></i> Thêm Sinh Viên
+              </button>
+            </div>
+          </div>
+
+          <!-- Student Cards Grid Container -->
+          <div class="bdu-student-cards-grid" id="studentGrid">
+            <!-- Dynamically Rendered by app.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================================== -->
+      <!-- SUB-PANE 4: MA TRẬN CỐ VẤN & PHÂN CÔNG (ASSIGNMENT)     -->
+      <!-- ===================================================== -->
+      <div id="subpane-matrix" class="bdu-subpane">
+        <div class="bdu-section-panel">
+          <div class="bdu-panel-title-bar">
+            <div>
+              <h2><i class="fa-solid fa-diagram-project text-primary"></i> Ma Trận Phân Công Cố Vấn Học Tập (GVCN) & Trợ Giảng Khoa Ngoại Ngữ</h2>
+              <p>Đối chiếu toàn diện mối liên kết giữa Giảng Viên Cơ Hữu, Trợ Giảng CTV và Lớp Sinh Viên các khóa</p>
+            </div>
+            <div class="panel-right-summary">
+              <span class="summary-chip" style="background: var(--bdu-green-light); color: var(--bdu-green-hover);">
+                <i class="fa-solid fa-circle-check"></i> 100% Khóa Học Đã Phân Công
+              </span>
+            </div>
+          </div>
+
+          <div class="bdu-matrix-container" id="matrixContainer">
+            <!-- Dynamically Rendered by app.js -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- TAB 2: KHO MINH CHỨNG GOOGLE DRIVE & ACTIVITY HUB (5W) -->
+    <!-- ===================================================== -->
+    <section id="tab-evidence" class="bdu-tab-pane">
+      <div class="bdu-section-panel">
+        <!-- Breadcrumb Navigation & Google Drive Status -->
+        <div class="bdu-drive-breadcrumb-bar">
+          <div class="bdu-breadcrumbs">
+            <span class="crumb-item" onclick="navigateToFolder('ALL')">
+              <i class="fa-brands fa-google-drive text-gdrive"></i>
+              <strong>Google Drive Root</strong>
+            </span>
+            <span class="crumb-sep"><i class="fa-solid fa-chevron-right"></i></span>
+            <span class="crumb-item active" id="currentFolderBreadcrumb">Tất cả thư mục</span>
+          </div>
+          
+          <div class="bdu-drive-status-badge" title="Đã kết nối kho lưu trữ Google Drive Khoa Ngoại Ngữ BDU">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <span>Google Drive: <strong>Đồng Bộ Trực Tuyến</strong></span>
+          </div>
+        </div>
+
+        <!-- Toolbar & Filter -->
+        <div class="bdu-toolbar-bar no-print">
+          <div class="bdu-toolbar-filters">
+            <div class="bdu-filter-item">
+              <label><i class="fa-solid fa-folder-tree"></i> Thư mục (What):</label>
+              <select id="filterEvidenceFolder" class="bdu-form-select">
+                <option value="ALL">📁 Tất cả thư mục Drive</option>
+              </select>
+            </div>
+            <div class="bdu-filter-item">
+              <label><i class="fa-solid fa-tag"></i> Phân loại:</label>
+              <select id="filterEvidenceCat" class="bdu-form-select">
+                <option value="ALL">Tất cả phân loại</option>
+                <option value="ĐTN/Hội SV">Đoàn - Hội / Tình nguyện</option>
+                <option value="Học thuật">Học thuật & Chứng chỉ</option>
+                <option value="Rèn luyện">Rèn luyện & Nề nếp</option>
+              </select>
+            </div>
+            <div class="bdu-toolbar-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="searchEvidence" class="bdu-form-input" placeholder="Tìm tên minh chứng, SV, địa điểm...">
+            </div>
+          </div>
+
+          <div class="bdu-toolbar-actions">
+            <!-- View Mode Switcher -->
+            <div class="bdu-view-switcher">
+              <button class="view-btn active" id="btnViewCards" onclick="setEvidenceViewMode('cards')" title="Xem dạng Thẻ">
+                <i class="fa-solid fa-grip"></i> Thẻ
+              </button>
+              <button class="view-btn" id="btnViewGallery" onclick="setEvidenceViewMode('gallery')" title="Xem Gallery Hình Ảnh">
+                <i class="fa-solid fa-images"></i> Gallery Ảnh
+              </button>
+              <button class="view-btn" id="btnViewTable" onclick="setEvidenceViewMode('table')" title="Xem dạng Bảng kê khai">
+                <i class="fa-solid fa-table-list"></i> Bảng
+              </button>
+              <button class="view-btn" id="btnViewPoints" onclick="setEvidenceViewMode('points')" title="Tổng hợp Điểm Rèn Luyện">
+                <i class="fa-solid fa-award"></i> Tổng Điểm RL
+              </button>
+            </div>
+
+            <button class="bdu-btn bdu-btn-secondary" id="btnOpenNewFolderModal">
+              <i class="fa-solid fa-folder-plus text-primary"></i> Tạo Thư Mục Drive
+            </button>
+            <button class="bdu-btn bdu-btn-gdrive" id="btnOpenAddEvidence">
+              <i class="fa-solid fa-cloud-arrow-up"></i> Tải Minh Chứng 5W
+            </button>
+          </div>
+        </div>
+
+        <!-- Google Drive Folders Showcase Section -->
+        <div id="folderExplorerSection" class="no-print">
+          <div class="bdu-subhead-row">
+            <span><i class="fa-brands fa-google-drive text-gdrive"></i> Danh Mục Thư Mục Google Drive (<span id="folderCountBadge">5 thư mục</span>)</span>
+            <a href="https://drive.google.com" target="_blank" class="bdu-btn bdu-btn-sm bdu-btn-outline-gdrive">
+              <i class="fa-brands fa-google-drive"></i> Mở Drive Khoa Ngoại Ngữ
+            </a>
+          </div>
+          <div class="bdu-folder-grid" id="folderGrid">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Evidence Section Header -->
+        <div class="bdu-subhead-row">
+          <span><i class="fa-solid fa-file-shield text-primary"></i> Danh Sách Minh Chứng & Hồ Sơ Đính Kèm (<span id="evidenceTotalBadge">6 minh chứng</span>)</span>
+          <small class="text-muted"><i class="fa-solid fa-check-double text-success"></i> Tiêu chuẩn 5W: When, Where, What, Who & Proof Link</small>
+        </div>
+
+        <!-- Evidence Display Container -->
+        <div id="evidenceMainDisplayArea">
+          <!-- Dynamically rendered -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- TAB 3: CHUYÊN CẦN & TIẾN ĐỘ ĐÀO TẠO                   -->
+    <!-- ===================================================== -->
+    <section id="tab-training" class="bdu-tab-pane">
+      <div class="bdu-section-panel">
+        <div class="bdu-panel-title-bar">
+          <div>
+            <h2><i class="fa-solid fa-chalkboard-user text-primary"></i> Quản Lý Chuyên Cần & Tiến Độ Học Phần</h2>
+            <p>Theo dõi số buổi giảng dạy, tỷ lệ chuyên cần theo thời khóa biểu Ngôn ngữ Anh / Ngôn ngữ Trung và cảnh báo cấm thi</p>
+          </div>
+          <div class="panel-right-summary">
+            <span class="summary-chip" id="trainingAvgBadge">Chuyên cần TB: 90%</span>
+            <span class="summary-chip-warning"><i class="fa-solid fa-ban"></i> &lt; 80%: Cấm Thi</span>
+          </div>
+        </div>
+
+        <div class="bdu-toolbar-bar no-print">
+          <div class="bdu-toolbar-filters">
+            <div class="bdu-filter-item">
+              <label>Hệ đào tạo:</label>
+              <select id="filterTrainingProgram" class="bdu-form-select">
+                <option value="ALL">Tất cả hệ</option>
+                <option value="Đại học Chính quy">Đại học Chính quy</option>
+                <option value="Chính quy & Liên thông">Chính quy & Liên thông</option>
+              </select>
+            </div>
+            <div class="bdu-toolbar-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="searchTraining" class="bdu-form-input" placeholder="Tìm tên môn học, mã học phần, giảng viên...">
+            </div>
+          </div>
+
+          <div class="bdu-toolbar-actions">
+            <button class="bdu-btn bdu-btn-secondary" id="btnExportTrainingExcel">
+              <i class="fa-solid fa-file-excel text-success"></i> Xuất Excel
+            </button>
+            <button class="bdu-btn bdu-btn-primary" id="btnOpenAddTraining">
+              <i class="fa-solid fa-plus"></i> Thêm Học Phần Mới
+            </button>
+          </div>
+        </div>
+
+        <!-- Academic Table -->
+        <div class="bdu-table-card">
+          <table class="bdu-data-table">
+            <thead>
+              <tr>
+                <th>Mã Lớp / HP</th>
+                <th>Tên Học Phần</th>
+                <th>Giảng Viên Giảng Dạy</th>
+                <th>Hệ Đào Tạo</th>
+                <th>Tiến Độ Giảng Dạy</th>
+                <th>Tỉ Lệ Chuyên Cần</th>
+                <th>Trạng Thái</th>
+                <th class="no-print">Thao Tác Nhanh</th>
+              </tr>
+            </thead>
+            <tbody id="trainingTableBody">
+              <!-- Dynamically Rendered -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- TAB 4: QUẢN LÝ NHIỆM VỤ & SỰ KIỆN (3 KHỐI VAI TRÒ)   -->
+    <!-- ===================================================== -->
+    <section id="tab-tasks" class="bdu-tab-pane">
+      <div class="bdu-section-panel">
+        <div class="bdu-panel-title-bar">
+          <div>
+            <h2><i class="fa-solid fa-list-check text-primary"></i> Quản Lý Công Việc & Hoạt Động 3 Khối Vai Trò</h2>
+            <p>Phân quyền & kiểm soát công việc: Giáo Vụ Khoa, Lớp Chủ Nhiệm (GVCN) và Đoàn Khoa / CLB Tiếng Anh (ETC)</p>
+          </div>
+          <div class="panel-right-summary">
+            <span class="summary-chip" id="taskPendingBadge">4 Việc Cần Làm</span>
+          </div>
+        </div>
+
+        <div class="bdu-toolbar-bar no-print">
+          <div class="bdu-toolbar-filters">
+            <div class="bdu-filter-item">
+              <label><i class="fa-solid fa-user-shield"></i> Khối vai trò:</label>
+              <select id="filterTaskRole" class="bdu-form-select">
+                <option value="ALL">Tất cả 3 khối vai trò</option>
+                <option value="Giáo Vụ">📢 Giáo Vụ Đại Học</option>
+                <option value="GVCN">👨‍🏫 Lớp Chủ Nhiệm (GVCN)</option>
+                <option value="Đoàn Khoa">🏆 Đoàn Khoa / CLB</option>
+              </select>
+            </div>
+            <div class="bdu-filter-item">
+              <label>Trạng thái:</label>
+              <select id="filterTaskStatus" class="bdu-form-select">
+                <option value="ALL">Tất cả tiến độ</option>
+                <option value="Chưa Thực Hiện">Chưa Thực Hiện</option>
+                <option value="Đang Thực Hiện">Đang Thực Hiện</option>
+                <option value="Hoàn Thành">Hoàn Thành</option>
+              </select>
+            </div>
+            <div class="bdu-toolbar-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="searchTask" class="bdu-form-input" placeholder="Tìm tên công việc, người phụ trách...">
+            </div>
+          </div>
+
+          <div class="bdu-toolbar-actions">
+            <!-- View Switcher -->
+            <div class="bdu-view-switcher">
+              <button class="view-btn active" id="btnTaskViewTable" onclick="setTaskViewMode('table')">
+                <i class="fa-solid fa-table-list"></i> Bảng
+              </button>
+              <button class="view-btn" id="btnTaskViewKanban" onclick="setTaskViewMode('kanban')">
+                <i class="fa-solid fa-table-columns"></i> Kanban Board
+              </button>
+            </div>
+
+            <button class="bdu-btn bdu-btn-secondary" id="btnExportTaskExcel">
+              <i class="fa-solid fa-file-excel text-success"></i> Xuất Excel
+            </button>
+            <button class="bdu-btn bdu-btn-primary" id="btnOpenAddTask">
+              <i class="fa-solid fa-plus"></i> Thêm Công Việc
+            </button>
+          </div>
+        </div>
+
+        <!-- Task Display Views -->
+        <div id="taskMainDisplayArea">
+          <!-- 1. Table View -->
+          <div class="bdu-table-card" id="taskTableView">
+            <table class="bdu-data-table">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Nội Dung Công Việc / Sự Kiện</th>
+                  <th>Khối Vai Trò</th>
+                  <th>Người Phụ Trách</th>
+                  <th>Hạn Chót (Deadline)</th>
+                  <th>Ưu Tiên</th>
+                  <th>Trạng Thái</th>
+                  <th class="no-print">Thao Tác</th>
+                </tr>
+              </thead>
+              <tbody id="taskTableBody">
+                <!-- Dynamically Rendered -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 2. Kanban View -->
+          <div class="bdu-kanban-board" id="taskKanbanView" style="display: none;">
+            <!-- Col 1: Chưa thực hiện -->
+            <div class="bdu-kanban-col">
+              <div class="kanban-col-head todo">
+                <span><i class="fa-regular fa-circle-dot"></i> Chưa Thực Hiện</span>
+                <span class="badge" id="kanbanCountTodo">0</span>
+              </div>
+              <div class="kanban-col-body" id="kanbanListTodo"></div>
+            </div>
+
+            <!-- Col 2: Đang thực hiện -->
+            <div class="bdu-kanban-col">
+              <div class="kanban-col-head doing">
+                <span><i class="fa-solid fa-spinner fa-spin"></i> Đang Thực Hiện</span>
+                <span class="badge" id="kanbanCountDoing">0</span>
+              </div>
+              <div class="kanban-col-body" id="kanbanListDoing"></div>
+            </div>
+
+            <!-- Col 3: Hoàn thành -->
+            <div class="bdu-kanban-col">
+              <div class="kanban-col-head done">
+                <span><i class="fa-solid fa-circle-check"></i> Hoàn Thành</span>
+                <span class="badge" id="kanbanCountDone">0</span>
+              </div>
+              <div class="kanban-col-body" id="kanbanListDone"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- TAB 5: NCKH SINH VIÊN KHOA NGOẠI NGỮ                  -->
+    <!-- ===================================================== -->
+    <section id="tab-research" class="bdu-tab-pane">
+      <div class="bdu-section-panel">
+        <div class="bdu-panel-title-bar">
+          <div>
+            <h2><i class="fa-solid fa-flask-vial text-primary"></i> Nghiên Cứu Khoa Học (NCKH) & Đổi Mới Sáng Tạo</h2>
+            <p>Quản lý các đề tài nghiên cứu ngôn ngữ, giảng viên hướng dẫn, bài báo công bố và kỷ yếu hội thảo BDU</p>
+          </div>
+          <div class="panel-right-summary">
+            <span class="summary-chip" id="researchCountBadge">4 Đề Tài</span>
+          </div>
+        </div>
+
+        <div class="bdu-toolbar-bar no-print">
+          <div class="bdu-toolbar-filters">
+            <div class="bdu-filter-item">
+              <label>Cấp quản lý:</label>
+              <select id="filterResearchLevel" class="bdu-form-select">
+                <option value="ALL">Tất cả cấp</option>
+                <option value="Cấp Khoa">Cấp Khoa</option>
+                <option value="Cấp Trường">Cấp Trường</option>
+              </select>
+            </div>
+            <div class="bdu-filter-item">
+              <label>Trạng thái:</label>
+              <select id="filterResearchStatus" class="bdu-form-select">
+                <option value="ALL">Tất cả tiến độ</option>
+                <option value="Đang triển khai">Đang triển khai</option>
+                <option value="Đã nghiệm thu">Đã nghiệm thu</option>
+              </select>
+            </div>
+            <div class="bdu-toolbar-search">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="searchResearch" class="bdu-form-input" placeholder="Tìm tên đề tài, GV hướng dẫn, SV...">
+            </div>
+          </div>
+
+          <div class="bdu-toolbar-actions">
+            <button class="bdu-btn bdu-btn-secondary" id="btnExportResearchExcel">
+              <i class="fa-solid fa-file-excel text-success"></i> Xuất Excel
+            </button>
+            <button class="bdu-btn bdu-btn-primary" id="btnOpenAddResearch">
+              <i class="fa-solid fa-plus"></i> Thêm Đề Tài NCKH
+            </button>
+          </div>
+        </div>
+
+        <div class="bdu-table-card">
+          <table class="bdu-data-table">
+            <thead>
+              <tr>
+                <th>Mã Đề Tài</th>
+                <th>Tên Đề Tài Nghiên Cứu</th>
+                <th>Sinh Viên Thực Hiện</th>
+                <th>Giảng Viên Hướng Dẫn</th>
+                <th>Cấp Quản Lý</th>
+                <th>Sản Phẩm Đầu Ra</th>
+                <th>Trạng Thái</th>
+                <th class="no-print">Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody id="researchTableBody">
+              <!-- Dynamically Rendered -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- TAB 6: ANALYTICS DASHBOARD                            -->
+    <!-- ===================================================== -->
+    <section id="tab-dashboard" class="bdu-tab-pane">
+      <!-- 4 Top KPI Metric Cards -->
+      <div class="bdu-kpi-grid">
+        <div class="bdu-kpi-card blue">
+          <div class="kpi-icon"><i class="fa-solid fa-user-graduate"></i></div>
+          <div class="kpi-info">
+            <span class="kpi-label">Tổng Sinh Viên Khoa</span>
+            <h3 id="dashTotalStudents">8</h3>
+            <span class="kpi-sub">Khóa K25, K26, K27, K28</span>
+          </div>
+        </div>
+
+        <div class="bdu-kpi-card green">
+          <div class="kpi-icon"><i class="fa-solid fa-clipboard-check"></i></div>
+          <div class="kpi-info">
+            <span class="kpi-label">Chuyên Cần Trung Bình</span>
+            <h3 id="dashAvgAttendance">90%</h3>
+            <span class="kpi-sub">Tính trên 5 học phần</span>
+          </div>
+        </div>
+
+        <div class="bdu-kpi-card amber">
+          <div class="kpi-icon"><i class="fa-solid fa-list-check"></i></div>
+          <div class="kpi-info">
+            <span class="kpi-label">Tỉ Lệ Xong Nhiệm Vụ</span>
+            <h3 id="dashTaskCompleted">33%</h3>
+            <span class="kpi-sub">Giáo Vụ - GVCN - Đoàn Khoa</span>
+          </div>
+        </div>
+
+        <div class="bdu-kpi-card red">
+          <div class="kpi-icon"><i class="fa-solid fa-flask"></i></div>
+          <div class="kpi-info">
+            <span class="kpi-label">Đề Tài NCKH Sinh Viên</span>
+            <h3 id="dashTotalResearch">4</h3>
+            <span class="kpi-sub">Cấp Khoa & Cấp Trường</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Visual Analytics Charts Grid -->
+      <div class="bdu-charts-grid">
+        <!-- Chart 1: Student Status -->
+        <div class="bdu-chart-card">
+          <div class="chart-header">
+            <h3><i class="fa-solid fa-chart-pie text-primary"></i> 1. Tỉ Lệ Trạng Thái Sinh Viên Khoa</h3>
+          </div>
+          <div class="chart-body">
+            <canvas id="chartStudentStatus"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 2: Task Distribution by Role -->
+        <div class="bdu-chart-card">
+          <div class="chart-header">
+            <h3><i class="fa-solid fa-chart-bar text-success"></i> 2. Khối Lượng Công Việc Theo 3 Vai Trò</h3>
+          </div>
+          <div class="chart-body">
+            <canvas id="chartTaskRole"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 3: Evidence Categories -->
+        <div class="bdu-chart-card">
+          <div class="chart-header">
+            <h3><i class="fa-brands fa-google-drive text-amber"></i> 3. Phân Loại Minh Chứng Hub (5W)</h3>
+          </div>
+          <div class="chart-body">
+            <canvas id="chartEvidenceCategory"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 4: Research Progress -->
+        <div class="bdu-chart-card">
+          <div class="chart-header">
+            <h3><i class="fa-solid fa-microscope text-danger"></i> 4. Tiến Độ Đề Tài NCKH & Nghiệm Thu</h3>
+          </div>
+          <div class="chart-body">
+            <canvas id="chartResearchStatus"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Summary List Panels -->
+      <div class="bdu-dashboard-two-col">
+        <div class="bdu-chart-card">
+          <div class="chart-header">
+            <h3><i class="fa-solid fa-clock text-danger"></i> Hạn Chót (Deadline) Gần Nhất</h3>
+          </div>
+          <div class="chart-body" style="height: auto;">
+            <ul class="bdu-deadline-list" id="dashUpcomingDeadlines">
+              <!-- Dynamically populated -->
+            </ul>
+          </div>
+        </div>
+
+        <div class="bdu-chart-card">
+          <div class="chart-header">
+            <h3><i class="fa-solid fa-star text-amber"></i> Sinh Viên Thành Tích & Bằng Khen</h3>
+          </div>
+          <div class="chart-body" style="height: auto;">
+            <ul class="bdu-awardee-list" id="dashAwardeeList">
+              <!-- Dynamically populated -->
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- TAB 7: BÁO CÁO HÀNH CHÍNH CHUẨN BAN GIÁM HIỆU BDU     -->
+    <!-- ===================================================== -->
+    <section id="tab-reports" class="bdu-tab-pane">
+      <!-- Toolbar & Export Actions -->
+      <div class="bdu-toolbar-bar no-print">
+        <div class="bdu-toolbar-filters">
+          <span style="font-weight: 700; font-size: 14px; color: var(--text-main);">
+            <i class="fa-solid fa-file-signature text-primary"></i> Báo Cáo Định Kỳ Trình Ban Giám Hiệu BDU (Tùy Chỉnh & Đồng Bộ Tự Động)
+          </span>
+        </div>
+        <div class="bdu-toolbar-actions">
+          <button class="bdu-btn bdu-btn-secondary" id="btnToggleEditReport" title="Bật/Tắt chế độ chỉnh sửa trực tiếp trên văn bản A4">
+            <i class="fa-solid fa-pen-to-square text-primary"></i> <span id="lblToggleEditReport">Chỉnh Sửa Văn Bản</span>
+          </button>
+          <button class="bdu-btn bdu-btn-secondary" id="btnSyncReportData" title="Tự động cập nhật số liệu mới nhất từ 5 phân hệ dữ liệu vào báo cáo">
+            <i class="fa-solid fa-arrows-rotate text-success"></i> Đồng Bộ Số Liệu Mới
+          </button>
+          <button class="bdu-btn bdu-btn-secondary" id="btnSaveCustomReport" title="Lưu lại nội dung đã chỉnh sửa vào hệ thống">
+            <i class="fa-solid fa-floppy-disk text-primary"></i> Lưu Bản Nháp
+          </button>
+          <button class="bdu-btn bdu-btn-secondary" id="btnResetReportTemplate" title="Khôi phục lại mẫu báo cáo ban đầu">
+            <i class="fa-solid fa-rotate-left text-danger"></i> Khôi Phục Mẫu
+          </button>
+          <button class="bdu-btn bdu-btn-secondary" id="btnDownloadWordDoc" title="Tải file Word .doc chuẩn định dạng BDU">
+            <i class="fa-solid fa-file-word text-primary"></i> Tải File Word (.doc)
+          </button>
+          <button class="bdu-btn bdu-btn-secondary" id="btnCopyReportWord" title="Sao chép toàn bộ văn bản để dán vào Word">
+            <i class="fa-solid fa-copy text-secondary"></i> Copy Clipboard
+          </button>
+          <button class="bdu-btn bdu-btn-primary" id="btnPrintReport" title="In trực tiếp hoặc Lưu dưới dạng PDF chuẩn khổ A4">
+            <i class="fa-solid fa-print"></i> In / Xuất PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Editing Helper Toolbar (Appears when editing is active) -->
+      <div id="reportEditFormattingBar" class="report-formatting-bar no-print" style="display: none;">
+        <div class="formatting-tools-group">
+          <span class="formatting-status-badge"><i class="fa-solid fa-pen-nib"></i> Đang ở chế độ chỉnh sửa trực tiếp</span>
+          <button type="button" class="format-btn" onclick="document.execCommand('bold', false, null)" title="In đậm (Ctrl+B)"><b>B</b></button>
+          <button type="button" class="format-btn" onclick="document.execCommand('italic', false, null)" title="In nghiêng (Ctrl+I)"><i>I</i></button>
+          <button type="button" class="format-btn" onclick="document.execCommand('underline', false, null)" title="Gạch chân (Ctrl+U)"><u>U</u></button>
+          <button type="button" class="format-btn" onclick="document.execCommand('insertUnorderedList', false, null)" title="Danh sách gạch đầu dòng"><i class="fa-solid fa-list-ul"></i></button>
+          <button type="button" class="format-btn" onclick="insertReportQuickSnippet('evaluation')" title="Chèn mục Đánh giá ưu điểm / Tồn đọng"><i class="fa-solid fa-comment-dots"></i> + Đánh Giá</button>
+          <button type="button" class="format-btn" onclick="insertReportQuickSnippet('proposal')" title="Chèn mục Đề xuất / Kiến nghị BGH"><i class="fa-solid fa-hand-holding-hand"></i> + Đề Xuất BGH</button>
+        </div>
+        <div class="formatting-hint">
+          <i class="fa-solid fa-circle-info text-primary"></i> Nhấp trực tiếp vào bất kỳ đoạn chữ nào bên dưới để gõ sửa nội dung, thêm nhận xét hoặc kiến nghị.
+        </div>
+      </div>
+
+      <!-- Administrative Word Document Paper (Standard A4) -->
+      <div class="bdu-paper-container" id="reportContentArea" spellcheck="false">
+        <!-- Dynamically generated official report -->
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- TAB 8: MẪU GIẤY TỜ HÀNH CHÍNH BDU (KHO BIỂU MẪU CHUẨN) -->
+    <!-- ===================================================== -->
+    <section id="tab-forms" class="bdu-tab-pane">
+      <!-- Toolbar Header -->
+      <div class="bdu-toolbar-bar no-print">
+        <div class="bdu-toolbar-left">
+          <h2><i class="fa-solid fa-folder-open text-amber"></i> Kho Mẫu Giấy Tờ Hành Chính Khoa Ngoại Ngữ BDU</h2>
+          <a href="https://tuyensinh.bdu.edu.vn/ho-tro-hanh-chinh/van-ban-bieu-mau-587.html" target="_blank" rel="noopener noreferrer" class="badge badge-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 4px;" title="Truy cập nguồn biểu mẫu chính thức từ Cổng Thông Tin BDU">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> Nguồn chính thức: tuyensinh.bdu.edu.vn
+          </a>
+        </div>
+        <div class="bdu-toolbar-actions">
+          <a href="https://tuyensinh.bdu.edu.vn/ho-tro-hanh-chinh/van-ban-bieu-mau-587.html" target="_blank" rel="noopener noreferrer" class="bdu-btn bdu-btn-secondary" title="Mở trang biểu mẫu gốc tại BDU Tuyển Sinh & Hỗ Trợ Hành Chính">
+            <i class="fa-solid fa-globe text-primary"></i> Mẫu Gốc BDU
+          </a>
+          <button class="bdu-btn bdu-btn-secondary" id="btnDownloadCurrentFormWord" title="Tải mẫu giấy tờ hiện tại thành file Word .doc">
+            <i class="fa-solid fa-file-word text-primary"></i> Tải File Word Mẫu (.doc)
+          </button>
+          <button class="bdu-btn bdu-btn-secondary" id="btnCopyCurrentForm" title="Sao chép toàn bộ văn bản">
+            <i class="fa-solid fa-copy"></i> Sao Chép
+          </button>
+          <button class="bdu-btn bdu-btn-primary" id="btnPrintCurrentForm" title="In trực tiếp mẫu chuẩn A4">
+            <i class="fa-solid fa-print"></i> In / Xuất PDF Khổ A4
+          </button>
+        </div>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="bdu-forms-filter-tabs no-print">
+        <button class="form-cat-tab active" data-cat="all" onclick="filterFormsCategory('all')">
+          <i class="fa-solid fa-layer-group"></i> Tất Cả Biểu Mẫu (15)
+        </button>
+        <button class="form-cat-tab" data-cat="thu-tuc-sv" onclick="filterFormsCategory('thu-tuc-sv')">
+          <i class="fa-solid fa-id-card"></i> 1. Thủ Tục & Xác Nhận SV (4)
+        </button>
+        <button class="form-cat-tab" data-cat="hoc-vu" onclick="filterFormsCategory('hoc-vu')">
+          <i class="fa-solid fa-graduation-cap"></i> 2. Học Vụ & Đào Tạo (4)
+        </button>
+        <button class="form-cat-tab" data-cat="khao-thi" onclick="filterFormsCategory('khao-thi')">
+          <i class="fa-solid fa-file-signature"></i> 3. Khảo Thí & Điểm Thi (2)
+        </button>
+        <button class="form-cat-tab" data-cat="thuc-tap-nckh" onclick="filterFormsCategory('thuc-tap-nckh')">
+          <i class="fa-solid fa-flask"></i> 4. Thực Tập & NCKH (2)
+        </button>
+        <button class="form-cat-tab" data-cat="thoi-hoc" onclick="filterFormsCategory('thoi-hoc')">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> 5. Thôi Học & Rút Hồ Sơ (1)
+        </button>
+        <button class="form-cat-tab" data-cat="noi-bo-khoa" onclick="filterFormsCategory('noi-bo-khoa')">
+          <i class="fa-solid fa-building-columns"></i> 6. Biên Bản & Tờ Trình BGH (2)
+        </button>
+      </div>
+
+      <!-- Forms Workspace Grid -->
+      <div class="bdu-forms-workspace-grid">
+        <!-- Left: Form Cards Directory -->
+        <div class="bdu-forms-list-col no-print">
+          <div class="forms-search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="searchFormsInput" placeholder="Tìm kiếm tên biểu mẫu, mã số..." oninput="searchForms(this.value)">
+          </div>
+          <div class="forms-card-list" id="formsCardListContainer">
+            <!-- Dynamically populated list of form templates -->
+          </div>
+        </div>
+
+        <!-- Right: Interactive Editor & Standard A4 Live Preview -->
+        <div class="bdu-forms-preview-col">
+          <!-- Quick Fill Inputs Accordion -->
+          <div class="bdu-form-fill-panel no-print" id="formFillInputsPanel">
+            <div class="form-fill-panel-header" onclick="toggleFormFillAccordion()">
+              <span><i class="fa-solid fa-pen-fancy text-primary"></i> <strong>Khung Nhập Nhanh Thông Tin Vào Biểu Mẫu</strong> (Dữ liệu tự điền sang bản in A4)</span>
+              <i class="fa-solid fa-chevron-up" id="iconFormFillToggle"></i>
+            </div>
+            <div class="form-fill-panel-body" id="formFillInputsBody">
+              <!-- Dynamically populated input fields according to active template -->
+            </div>
+          </div>
+
+          <!-- Official Administrative Document A4 Paper -->
+          <div class="bdu-paper-container" id="administrativeFormPaperTarget" spellcheck="false">
+            <!-- Dynamically populated standard A4 Administrative Form -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- TAB 8: TẠO ĐỀ THI BẰNG AI (AI EXAM GENERATOR & KHẢO THÍ) -->
+    <!-- ===================================================== -->
+    <section id="tab-ai-exam" class="bdu-tab-pane">
+      <!-- Toolbar Header -->
+      <div class="bdu-toolbar-bar no-print">
+        <div class="bdu-toolbar-left">
+          <h2><i class="fa-solid fa-wand-magic-sparkles text-amber"></i> AI Exam Generator Studio</h2>
+          <span class="badge badge-hot" id="aiExamRoleBadge">Bảo Mật @bdu.edu.vn</span>
+        </div>
+        <div class="bdu-toolbar-actions" id="aiExamTopActions" style="display: none;">
+          <button class="bdu-btn bdu-btn-secondary" id="btnSaveExamToBank">
+            <i class="fa-solid fa-floppy-disk text-success"></i> Lưu Vào Ngân Hàng
+          </button>
+          <button class="bdu-btn bdu-btn-secondary" id="btnDownloadExamWord">
+            <i class="fa-solid fa-file-word text-primary"></i> Xuất Đề File Word
+          </button>
+          <button class="bdu-btn bdu-btn-secondary" id="btnCopyExamToClipboard">
+            <i class="fa-solid fa-copy"></i> Sao Chép Đề
+          </button>
+          <button class="bdu-btn bdu-btn-primary" id="btnPrintExamPaper">
+            <i class="fa-solid fa-print"></i> In Đề Chuẩn A4
+          </button>
+        </div>
+      </div>
+
+      <!-- Security Gate (Visible when not authenticated with @bdu.edu.vn) -->
+      <div id="aiExamSecurityGate" class="ai-security-shield-card">
+        <div class="security-shield-icon">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h2>Khu Vực Bảo Mật Khảo Thí & Biên Soạn Đề Thi BDU</h2>
+        <p>Tính năng <strong>Tạo Đề Thi Bằng Trí Tuệ Nhân Tạo (AI)</strong> chứa ngân hàng dữ liệu đề thi và thang điểm nhạy cảm. Hệ thống yêu cầu xác thực đăng nhập bằng email chính thức của Trường Đại học Bình Dương (<strong>@bdu.edu.vn</strong>).</p>
+        <button class="bdu-btn bdu-btn-primary bdu-btn-lg" id="btnOpenLoginForExam" style="margin: 0 auto;">
+          <i class="fa-solid fa-right-to-bracket"></i> Đăng Nhập Email @bdu.edu.vn Ngay
+        </button>
+      </div>
+
+      <!-- AI Exam Studio Interface (Visible when logged in) -->
+      <div id="aiExamStudio" class="bdu-ai-exam-container" style="display: none;">
+        <div class="ai-exam-builder-grid">
+          <!-- Left: Config & Inputs Form -->
+          <div class="ai-exam-config-card no-print">
+            <h3><i class="fa-solid fa-sliders"></i> Thiết Lập Thông Số Đề Thi</h3>
+            <form id="formAiExamConfig">
+              <div class="bdu-form-group">
+                <label>Ngôn Ngữ / Chuyên Ngành *</label>
+                <select id="aiSubject" class="bdu-form-select" required>
+                  <option value="Tiếng Anh (English / VSTEP)">🇬🇧 Tiếng Anh (English / VSTEP / TOEIC)</option>
+                  <option value="Tiếng Trung Quốc (Chinese / HSK)">🇨🇳 Tiếng Trung Quốc (Chinese / HSK)</option>
+                  <option value="Tiếng Hàn Quốc (Korean / TOPIK)">🇰🇷 Tiếng Hàn Quốc (Korean / TOPIK)</option>
+                  <option value="Tiếng Nhật Bản (Japanese / JLPT)">🇯🇵 Tiếng Nhật Bản (Japanese / JLPT)</option>
+                  <option value="Tiếng Anh Thương Mại (Business English ESP)">💼 Tiếng Anh Thương Mại (Business English)</option>
+                </select>
+              </div>
+
+              <div class="bdu-form-row">
+                <div class="bdu-form-group">
+                  <label>Khung Năng Lực / Trình Độ *</label>
+                  <select id="aiLevel" class="bdu-form-select" required>
+                    <option value="B1 (VSTEP B1 / Intermediate)">B1 (VSTEP B1 / Intermediate)</option>
+                    <option value="B2 (VSTEP B2 / Upper-Inter)">B2 (VSTEP B2 / Upper-Inter)</option>
+                    <option value="C1 (VSTEP C1 / Advanced)">C1 (VSTEP C1 / Advanced)</option>
+                    <option value="A2 (VSTEP A2 / Pre-Inter)">A2 (VSTEP A2 / Sơ cấp)</option>
+                    <option value="HSK 4 (Trung cấp tiếng Hán)">HSK 4 (Tiếng Trung)</option>
+                    <option value="TOPIK 3-4 (Tiếng Hàn)">TOPIK 3-4 (Tiếng Hàn)</option>
+                    <option value="JLPT N3-N2 (Tiếng Nhật)">JLPT N3-N2 (Tiếng Nhật)</option>
+                  </select>
+                </div>
+                <div class="bdu-form-group">
+                  <label>Hình Thức Kiểm Tra *</label>
+                  <select id="aiExamType" class="bdu-form-select" required>
+                    <option value="Đề Thi Cuối Kỳ (Final Exam)">Đề Thi Cuối Kỳ (Final Exam)</option>
+                    <option value="Đề Thi Giữa Kỳ (Midterm)">Đề Thi Giữa Kỳ (Midterm)</option>
+                    <option value="Khảo Thí Chuẩn Đầu Ra (Exit Test)">Khảo Thí Chuẩn Đầu Ra (Exit Test)</option>
+                    <option value="Kiểm Tra Định Kỳ 45 Phút">Kiểm Tra Định Kỳ 45 Phút</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="bdu-form-row">
+                <div class="bdu-form-group">
+                  <label>Mã Học Phần</label>
+                  <input type="text" id="aiCourseCode" class="bdu-form-input" value="ENG202" placeholder="VD: ENG202">
+                </div>
+                <div class="bdu-form-group">
+                  <label>Thời Gian Làm Bài</label>
+                  <select id="aiDuration" class="bdu-form-select">
+                    <option value="45">45 Phút</option>
+                    <option value="60" selected>60 Phút</option>
+                    <option value="90">90 Phút</option>
+                    <option value="120">120 Phút</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="bdu-form-group">
+                <label>Tên Học Phần</label>
+                <input type="text" id="aiCourseName" class="bdu-form-input" value="Tiếng Anh Chuyên Ngành & Giao Tiếp Thương Mại" placeholder="VD: Tiếng Anh Chuyên Ngành">
+              </div>
+
+              <div class="bdu-form-group">
+                <label>Số Lượng Câu Hỏi Trắc Nghiệm</label>
+                <select id="aiNumQuestions" class="bdu-form-select">
+                  <option value="10">10 Câu (Kiểm tra nhanh)</option>
+                  <option value="20" selected>20 Câu (Đề thi chuẩn 60p)</option>
+                  <option value="30">30 Câu (Đề thi chuẩn 90p)</option>
+                  <option value="40">40 Câu (Đề khảo thí VSTEP)</option>
+                </select>
+              </div>
+
+              <div class="bdu-form-group">
+                <label>Chủ Đề Ngữ Liệu / Tùy Biến Đầu Vào</label>
+                <textarea id="aiTopic" class="bdu-form-textarea" rows="2" placeholder="VD: Giao tiếp thương mại quốc tế, Doanh nghiệp FDI Bình Dương, Công nghệ AI trong dịch thuật..."></textarea>
+              </div>
+
+              <div class="bdu-form-group">
+                <label style="margin-bottom: 6px;">Kỹ Năng Đánh Giá (Cấu Trúc Đề):</label>
+                <div style="display: flex; flex-direction: column; gap: 6px; font-size: 12.5px;">
+                  <label style="font-weight: 500;"><input type="checkbox" id="chkSkillGrammar" checked> Ngữ pháp & Từ vựng chuyên ngành</label>
+                  <label style="font-weight: 500;"><input type="checkbox" id="chkSkillReading" checked> Đọc hiểu văn bản (Reading Passage)</label>
+                  <label style="font-weight: 500;"><input type="checkbox" id="chkSkillWriting" checked> Phần Tự luận & Viết đoạn văn (Writing)</label>
+                  <label style="font-weight: 500;"><input type="checkbox" id="chkSkillMatrix" checked> Tạo kèm Ma trận Đề thi (Exam Matrix)</label>
+                </div>
+              </div>
+
+              <button type="submit" class="bdu-btn bdu-btn-primary" id="btnSubmitGenerateExam" style="width: 100%; justify-content: center; padding: 12px;">
+                <i class="fa-solid fa-bolt text-amber"></i> AI Tạo Đề Thi Chuẩn BDU
+              </button>
+            </form>
+          </div>
+
+          <!-- Right: Interactive Exam Output & Preview -->
+          <div class="ai-exam-preview-card">
+            <!-- Preview Subtabs -->
+            <div class="ai-preview-tabs-bar no-print">
+              <div class="ai-preview-tabs">
+                <button class="ai-preview-tab-btn active" data-subtab="student-paper">
+                  <i class="fa-solid fa-file-lines"></i> 1. Đề Thi Sinh Viên
+                </button>
+                <button class="ai-preview-tab-btn" data-subtab="teacher-key">
+                  <i class="fa-solid fa-key"></i> 2. Đáp Án & Hướng Dẫn Chấm
+                </button>
+                <button class="ai-preview-tab-btn" data-subtab="exam-matrix">
+                  <i class="fa-solid fa-table-cells"></i> 3. Ma Trận Đề Thi
+                </button>
+                <button class="ai-preview-tab-btn" data-subtab="saved-bank">
+                  <i class="fa-solid fa-box-archive"></i> 4. Ngân Hàng Đề (<span id="countSavedExams">0</span>)
+                </button>
+              </div>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div id="aiExamLoading" class="ai-generation-loading-overlay">
+              <div class="ai-spinner-bdu"></div>
+              <h4 style="font-weight: 800; color: var(--bdu-primary); margin-bottom: 6px;">AI Đang Soạn Thảo & Chuẩn Hóa Đề Thi BDU...</h4>
+              <p style="font-size: 13px; color: var(--text-muted); max-width: 450px;">Hệ thống đang đối chiếu ma trận chuẩn đầu ra, sinh ngữ liệu văn bản đọc hiểu và tạo ngân hàng đáp án trắc nghiệm chuẩn xác.</p>
+            </div>
+
+            <!-- Tab 1 Pane: Student Exam Paper -->
+            <div id="paneStudentPaper" class="ai-exam-pane active">
+              <div class="bdu-exam-paper" id="studentExamPaperContent">
+                <!-- Dynamically rendered student exam paper -->
+              </div>
+            </div>
+
+            <!-- Tab 2 Pane: Teacher Answer Key -->
+            <div id="paneTeacherKey" class="ai-exam-pane" style="display: none;">
+              <div class="bdu-exam-paper" id="teacherKeyContent">
+                <!-- Dynamically rendered teacher answer key -->
+              </div>
+            </div>
+
+            <!-- Tab 3 Pane: Exam Matrix -->
+            <div id="paneExamMatrix" class="ai-exam-pane" style="display: none;">
+              <div class="bdu-exam-paper" id="examMatrixContent">
+                <!-- Dynamically rendered matrix -->
+              </div>
+            </div>
+
+            <!-- Tab 4 Pane: Saved Exam Bank -->
+            <div id="paneSavedBank" class="ai-exam-pane" style="display: none; padding: 24px;">
+              <div id="savedExamBankList">
+                <!-- Dynamically rendered saved exams -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  </div> <!-- end .bdu-content-area -->
+</div> <!-- end .bdu-app-layout -->
+
+  <!-- ======================================================= -->
+  <!-- 6. MODAL DIALOGS                                        -->
+  <!-- ======================================================= -->
+
+  <!-- Modal: Spotlight Quick Search (Ctrl+K) -->
+  <div class="bdu-modal-overlay" id="modalSpotlight">
+    <div class="bdu-modal-box spotlight-box">
+      <div class="spotlight-header">
+        <i class="fa-solid fa-magnifying-glass text-primary"></i>
+        <input type="text" id="spotlightInput" placeholder="Tìm kiếm sinh viên, công việc, học phần, minh chứng, NCKH..." autofocus>
+        <kbd>ESC</kbd>
+      </div>
+      <div class="spotlight-results" id="spotlightResults">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Thêm Sinh Viên Mới -->
+  <div class="bdu-modal-overlay" id="modalAddStudent">
+    <div class="bdu-modal-box">
+      <div class="bdu-modal-header">
+        <h3><i class="fa-solid fa-user-plus text-primary"></i> Thêm Hồ Sơ Sinh Viên</h3>
+        <button class="modal-close-btn" id="closeAddStudent">&times;</button>
+      </div>
+      <form id="formAddStudent">
+        <div class="bdu-modal-body">
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Mã Số Sinh Viên (MSSV) *</label>
+              <input type="text" id="stuCode" class="bdu-form-input" required placeholder="VD: 28NN0120">
+            </div>
+            <div class="bdu-form-group">
+              <label>Họ Và Tên *</label>
+              <input type="text" id="stuName" class="bdu-form-input" required placeholder="VD: Nguyễn Thị Lan">
+            </div>
+          </div>
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Khóa Học *</label>
+              <select id="stuCohort" class="bdu-form-select" required>
+                <option value="K28">K28 (2024 - 2028)</option>
+                <option value="K27">K27 (2023 - 2027)</option>
+                <option value="K26">K26 (2022 - 2026)</option>
+                <option value="K25">K25 (2021 - 2025)</option>
+              </select>
+            </div>
+            <div class="bdu-form-group">
+              <label>Chuyên Ngành *</label>
+              <select id="stuMajor" class="bdu-form-select">
+                <option value="Ngôn ngữ Anh">Ngôn ngữ Anh</option>
+                <option value="Ngôn ngữ Trung">Ngôn ngữ Trung</option>
+                <option value="Ngôn ngữ Hàn">Ngôn ngữ Hàn</option>
+                <option value="Ngôn ngữ Nhật">Ngôn ngữ Nhật</option>
+              </select>
+            </div>
+          </div>
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Trạng Thái Học Vụ</label>
+              <select id="stuStatus" class="bdu-form-select">
+                <option value="Đang học">Đang học</option>
+                <option value="Bằng khen">Bằng khen</option>
+                <option value="Cảnh báo">Cảnh báo</option>
+                <option value="Nghỉ học">Nghỉ học</option>
+              </select>
+            </div>
+            <div class="bdu-form-group">
+              <label>Điểm GPA Tích Lũy</label>
+              <input type="number" id="stuGpa" step="0.01" min="0" max="4.0" class="bdu-form-input" placeholder="VD: 3.50" value="3.20">
+            </div>
+          </div>
+          <div class="bdu-form-group">
+            <label>Cố Vấn Học Tập / GVCN Phụ Trách</label>
+            <input type="text" id="stuAdvisor" class="bdu-form-input" placeholder="VD: ThS. Trần Thị C" value="ThS. Trần Thị C">
+          </div>
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Email Sinh Viên</label>
+              <input type="email" id="stuEmail" class="bdu-form-input" placeholder="VD: 28nn0120@student.bdu.edu.vn">
+            </div>
+            <div class="bdu-form-group">
+              <label>Số Điện Thoại</label>
+              <input type="tel" id="stuPhone" class="bdu-form-input" placeholder="VD: 0901 234 567">
+            </div>
+          </div>
+        </div>
+        <div class="bdu-modal-footer">
+          <button type="button" class="bdu-btn bdu-btn-secondary" id="btnCancelAddStudent">Hủy</button>
+          <button type="submit" class="bdu-btn bdu-btn-primary">Lưu Sinh Viên</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Thêm Thư Mục Drive Mới -->
+  <div class="bdu-modal-overlay" id="modalAddFolder">
+    <div class="bdu-modal-box">
+      <div class="bdu-modal-header">
+        <h3><i class="fa-brands fa-google-drive text-gdrive"></i> Tạo Thư Mục Google Drive Mới</h3>
+        <button class="modal-close-btn" id="closeAddFolder">&times;</button>
+      </div>
+      <form id="formAddFolder">
+        <div class="bdu-modal-body">
+          <div class="bdu-form-group">
+            <label>Tên Thư Mục *</label>
+            <input type="text" id="foldName" class="bdu-form-input" required placeholder="VD: 06_Minh_Chung_K28_HK1">
+          </div>
+          <div class="bdu-form-group">
+            <label>Phân Loại Mặc Định</label>
+            <select id="foldCategory" class="bdu-form-select">
+              <option value="Học thuật">Học thuật & Chứng chỉ</option>
+              <option value="ĐTN/Hội SV">Đoàn - Hội / Tình nguyện</option>
+              <option value="Rèn luyện">Rèn luyện & Nề nếp</option>
+            </select>
+          </div>
+          <div class="bdu-form-group">
+            <label>Đường Dẫn Google Drive Folder (URL / ID) *</label>
+            <input type="url" id="foldDriveUrl" class="bdu-form-input" required placeholder="https://drive.google.com/drive/folders/..." value="https://drive.google.com/drive/folders/1bdu_evidence_folder">
+          </div>
+          <div class="bdu-form-group">
+            <label>Mô Tả Thư Mục</label>
+            <input type="text" id="foldDescription" class="bdu-form-input" placeholder="VD: Lưu trữ giấy khen và chứng chỉ ngoại ngữ HK1">
+          </div>
+        </div>
+        <div class="bdu-modal-footer">
+          <button type="button" class="bdu-btn bdu-btn-secondary" id="btnCancelAddFolder">Hủy</button>
+          <button type="submit" class="bdu-btn bdu-btn-gdrive">Tạo Thư Mục</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Tải Minh Chứng 5W Mới -->
+  <div class="bdu-modal-overlay" id="modalAddEvidence">
+    <div class="bdu-modal-box modal-lg">
+      <div class="bdu-modal-header">
+        <h3><i class="fa-solid fa-cloud-arrow-up text-gdrive"></i> Nạp Minh Chứng Hoạt Động (Chuẩn 5W)</h3>
+        <button class="modal-close-btn" id="closeAddEvidence">&times;</button>
+      </div>
+      <form id="formAddEvidence">
+        <div class="bdu-modal-body">
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Thư Mục Drive Chứa (What Folder) *</label>
+              <select id="evFolderSelect" class="bdu-form-select" required></select>
+            </div>
+            <div class="bdu-form-group">
+              <label>Phân Loại Hoạt Động *</label>
+              <select id="evCategory" class="bdu-form-select">
+                <option value="Học thuật">Học thuật & Chứng chỉ</option>
+                <option value="ĐTN/Hội SV">Đoàn - Hội / Tình nguyện</option>
+                <option value="Rèn luyện">Rèn luyện & Nề nếp</option>
+              </select>
+            </div>
+          </div>
+          <div class="bdu-form-group">
+            <label>Tên Hoạt Động / Tên Minh Chứng (What) *</label>
+            <input type="text" id="evTitle" class="bdu-form-input" required placeholder="VD: Chứng chỉ HSK 4 hoặc Tham gia Mùa Hè Xanh 2026">
+          </div>
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Sinh Viên Thực Hiện (Who) *</label>
+              <select id="evStudentSelect" class="bdu-form-select" required></select>
+            </div>
+            <div class="bdu-form-group">
+              <label>Ngày Thực Hiện (When) *</label>
+              <input type="date" id="evDatetime" class="bdu-form-input" required value="2026-08-31">
+            </div>
+          </div>
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Địa Điểm Tổ Chức (Where) *</label>
+              <input type="text" id="evLocation" class="bdu-form-input" required placeholder="VD: BDU Main Campus hoặc Nhà hát BDU" value="BDU Main Campus">
+            </div>
+            <div class="bdu-form-group">
+              <label>Đơn Vị Xác Nhận / Cấp Chứng Nhận (Issuer) *</label>
+              <input type="text" id="evIssuer" class="bdu-form-input" required placeholder="VD: Khoa Ngoại Ngữ / Đoàn Trường" value="Khoa Ngoại Ngữ BDU">
+            </div>
+          </div>
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Điểm Rèn Luyện (+ĐRL)</label>
+              <input type="number" id="evPoints" class="bdu-form-input" min="1" max="30" value="10">
+            </div>
+            <div class="bdu-form-group">
+              <label>Link File Google Drive (Proof URL)</label>
+              <input type="url" id="evDriveUrl" class="bdu-form-input" placeholder="https://drive.google.com/file/d/..." value="https://drive.google.com/file/d/1bdu_evidence_demo/view">
+            </div>
+          </div>
+          <div class="bdu-form-group">
+            <label>Đường Dẫn Hình Ảnh Minh Chứng (Image URL)</label>
+            <input type="url" id="evImageUrl" class="bdu-form-input" placeholder="https://..." value="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&auto=format&fit=crop&q=80">
+          </div>
+        </div>
+        <div class="bdu-modal-footer">
+          <button type="button" class="bdu-btn bdu-btn-secondary" id="btnCancelAddEvidence">Hủy</button>
+          <button type="submit" class="bdu-btn bdu-btn-gdrive">Lưu Minh Chứng</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Xem Chi Tiết Minh Chứng (Preview 5W) -->
+  <div class="bdu-modal-overlay" id="modalPreviewEvidence">
+    <div class="bdu-modal-box modal-lg">
+      <div class="bdu-modal-header">
+        <h3><i class="fa-brands fa-google-drive text-gdrive"></i> Chi Tiết Minh Chứng (Chuẩn 5W)</h3>
+        <button class="modal-close-btn" id="closePreviewEvidence">&times;</button>
+      </div>
+      <div class="bdu-modal-body" id="previewEvidenceContent">
+        <!-- Dynamically populated -->
+      </div>
+      <div class="bdu-modal-footer">
+        <a id="btnPreviewOpenDrive" href="#" target="_blank" class="bdu-btn bdu-btn-gdrive">
+          <i class="fa-brands fa-google-drive"></i> Mở Trong Google Drive
+        </a>
+        <button type="button" class="bdu-btn bdu-btn-secondary" id="btnClosePreviewEvidence">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Thêm Học Phần Mới -->
+  <div class="bdu-modal-overlay" id="modalAddTraining">
+    <div class="bdu-modal-box">
+      <div class="bdu-modal-header">
+        <h3><i class="fa-solid fa-book-bookmark text-primary"></i> Thêm Học Phần Đào Tạo</h3>
+        <button class="modal-close-btn" id="closeAddTraining">&times;</button>
+      </div>
+      <form id="formAddTraining">
+        <div class="bdu-modal-body">
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Mã Học Phần *</label>
+              <input type="text" id="trainCode" class="bdu-form-input" required placeholder="VD: ENG202">
+            </div>
+            <div class="bdu-form-group">
+              <label>Tên Học Phần *</label>
+              <input type="text" id="trainName" class="bdu-form-input" required placeholder="VD: Ngữ Nghĩa Học Tiếng Anh">
+            </div>
+          </div>
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Giảng Viên Giảng Dạy *</label>
+              <input type="text" id="trainLecturer" class="bdu-form-input" required placeholder="VD: TS. Nguyễn Văn B">
+            </div>
+            <div class="bdu-form-group">
+              <label>Hệ Đào Tạo</label>
+              <select id="trainProgram" class="bdu-form-select">
+                <option value="Đại học Chính quy">Đại học Chính quy</option>
+                <option value="Chính quy & Liên thông">Chính quy & Liên thông</option>
+              </select>
+            </div>
+          </div>
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Tổng Số Buổi Học</label>
+              <input type="number" id="trainTotalLessons" class="bdu-form-input" value="15" min="1">
+            </div>
+            <div class="bdu-form-group">
+              <label>Số Buổi Đã Giảng Dạy</label>
+              <input type="number" id="trainCompletedLessons" class="bdu-form-input" value="5" min="0">
+            </div>
+          </div>
+          <div class="bdu-form-group">
+            <label>Tỉ Lệ Chuyên Cần (%)</label>
+            <input type="number" id="trainAttendance" class="bdu-form-input" value="92" min="0" max="100">
+          </div>
+        </div>
+        <div class="bdu-modal-footer">
+          <button type="button" class="bdu-btn bdu-btn-secondary" id="btnCancelAddTraining">Hủy</button>
+          <button type="submit" class="bdu-btn bdu-btn-primary">Lưu Học Phần</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Thêm Công Việc Mới -->
+  <div class="bdu-modal-overlay" id="modalAddTask">
+    <div class="bdu-modal-box">
+      <div class="bdu-modal-header">
+        <h3><i class="fa-solid fa-plus text-primary"></i> Giao Việc / Thêm Sự Kiện</h3>
+        <button class="modal-close-btn" id="closeAddTask">&times;</button>
+      </div>
+      <form id="formAddTask">
+        <div class="bdu-modal-body">
+          <div class="bdu-form-group">
+            <label>Nội Dung Công Việc / Sự Kiện *</label>
+            <textarea id="taskContent" class="bdu-form-textarea" rows="2" required placeholder="VD: Lập danh sách sinh viên K28 chưa hoàn tất học phí HK1"></textarea>
+          </div>
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Khối Vai Trò *</label>
+              <select id="taskRole" class="bdu-form-select">
+                <option value="Giáo Vụ">📢 Giáo Vụ Đại Học</option>
+                <option value="GVCN">👨‍🏫 Lớp Chủ Nhiệm (GVCN)</option>
+                <option value="Đoàn Khoa">🏆 Đoàn Khoa / CLB</option>
+              </select>
+            </div>
+            <div class="bdu-form-group">
+              <label>Người / Bộ Phận Phụ Trách *</label>
+              <input type="text" id="taskAssignee" class="bdu-form-input" required placeholder="VD: ThS. Hoàng Văn E" value="Giáo Vụ Khoa">
+            </div>
+          </div>
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Hạn Chót (Deadline) *</label>
+              <input type="date" id="taskDeadline" class="bdu-form-input" required value="2026-09-10">
+            </div>
+            <div class="bdu-form-group">
+              <label>Mức Độ Ưu Tiên</label>
+              <select id="taskPriority" class="bdu-form-select">
+                <option value="Cao">Cao (Khẩn cấp)</option>
+                <option value="Trung bình" selected>Trung bình</option>
+                <option value="Thấp">Thấp</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="bdu-modal-footer">
+          <button type="button" class="bdu-btn bdu-btn-secondary" id="btnCancelAddTask">Hủy</button>
+          <button type="submit" class="bdu-btn bdu-btn-primary">Giao Công Việc</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Thêm Đề Tài NCKH -->
+  <div class="bdu-modal-overlay" id="modalAddResearch">
+    <div class="bdu-modal-box">
+      <div class="bdu-modal-header">
+        <h3><i class="fa-solid fa-flask text-primary"></i> Đăng Ký Đề Tài NCKH Sinh Viên</h3>
+        <button class="modal-close-btn" id="closeAddResearch">&times;</button>
+      </div>
+      <form id="formAddResearch">
+        <div class="bdu-modal-body">
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Mã Đề Tài *</label>
+              <input type="text" id="resCode" class="bdu-form-input" required placeholder="VD: NCKH-2026-05">
+            </div>
+            <div class="bdu-form-group">
+              <label>Cấp Quản Lý *</label>
+              <select id="resLevel" class="bdu-form-select">
+                <option value="Cấp Khoa">Cấp Khoa</option>
+                <option value="Cấp Trường">Cấp Trường</option>
+              </select>
+            </div>
+          </div>
+          <div class="bdu-form-group">
+            <label>Tên Đề Tài Nghiên Cứu *</label>
+            <input type="text" id="resTitle" class="bdu-form-input" required placeholder="VD: Ứng dụng mô hình Hybrid trong giảng dạy Ngôn ngữ Anh">
+          </div>
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Sinh Viên Thực Hiện *</label>
+              <input type="text" id="resStudent" class="bdu-form-input" required placeholder="VD: Nguyễn Văn An, Võ Hoàng Yến">
+            </div>
+            <div class="bdu-form-group">
+              <label>Giảng Viên Hướng Dẫn *</label>
+              <input type="text" id="resMentor" class="bdu-form-input" required placeholder="VD: TS. Nguyễn Văn B">
+            </div>
+          </div>
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Sản Phẩm Đầu Ra</label>
+              <input type="text" id="resOutput" class="bdu-form-input" placeholder="VD: 01 Báo cáo khoa học & Kỷ yếu" value="01 Báo cáo Khoa học">
+            </div>
+            <div class="bdu-form-group">
+              <label>Trạng Thái</label>
+              <select id="resStatus" class="bdu-form-select">
+                <option value="Đang triển khai">Đang triển khai</option>
+                <option value="Đã nghiệm thu">Đã nghiệm thu</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="bdu-modal-footer">
+          <button type="button" class="bdu-btn bdu-btn-secondary" id="btnCancelAddResearch">Hủy</button>
+          <button type="submit" class="bdu-btn bdu-btn-primary">Lưu Đề Tài</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Thêm Giảng Viên Mới -->
+  <div class="bdu-modal-overlay" id="modalAddLecturer">
+    <div class="bdu-modal-box">
+      <div class="bdu-modal-header">
+        <h3><i class="fa-solid fa-chalkboard-user text-primary"></i> Thêm Cán Bộ Giảng Viên Cơ Hữu</h3>
+        <button class="modal-close-btn" id="closeAddLecturer">&times;</button>
+      </div>
+      <form id="formAddLecturer">
+        <div class="bdu-modal-body">
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Mã Cán Bộ (Mã GV) *</label>
+              <input type="text" id="lecCode" class="bdu-form-input" required placeholder="VD: GV-BDU-07">
+            </div>
+            <div class="bdu-form-group">
+              <label>Họ Và Tên *</label>
+              <input type="text" id="lecName" class="bdu-form-input" required placeholder="VD: TS. Nguyễn Thanh Phong">
+            </div>
+          </div>
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Học Hàm / Học Vị *</label>
+              <select id="lecDegree" class="bdu-form-select" required>
+                <option value="TS.">Tiến sĩ (TS.)</option>
+                <option value="ThS.">Thạc sĩ (ThS.)</option>
+                <option value="PGS.TS.">Phó Giáo Sư (PGS.TS.)</option>
+                <option value="GS.TS.">Giáo Sư (GS.TS.)</option>
+                <option value="Cử nhân">Cử nhân (CN.)</option>
+              </select>
+            </div>
+            <div class="bdu-form-group">
+              <label>Bộ Môn Chuyên Môn *</label>
+              <select id="lecDepartment" class="bdu-form-select" required>
+                <option value="Bộ môn Ngôn ngữ Anh">Bộ môn Ngôn ngữ Anh</option>
+                <option value="Bộ môn Ngôn ngữ Trung Quốc">Bộ môn Ngôn ngữ Trung Quốc</option>
+                <option value="Bộ môn Ngôn ngữ Hàn Quốc">Bộ môn Ngôn ngữ Hàn Quốc</option>
+                <option value="Bộ môn Ngôn ngữ Nhật Bản">Bộ môn Ngôn ngữ Nhật Bản</option>
+                <option value="Bộ môn Kỹ năng & Thực hành">Bộ môn Kỹ năng & Thực hành</option>
+              </select>
+            </div>
+          </div>
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Chức Vụ / Nhiệm Vụ Khoa</label>
+              <input type="text" id="lecPosition" class="bdu-form-input" placeholder="VD: Giảng viên chính / Trưởng Bộ Môn" value="Giảng viên cơ hữu">
+            </div>
+            <div class="bdu-form-group">
+              <label>Trạng Thái Công Tác</label>
+              <select id="lecStatus" class="bdu-form-select">
+                <option value="Đang công tác">Đang công tác</option>
+                <option value="Đang làm NCS">Đang làm NCS / Nâng cao</option>
+                <option value="Nghỉ phép">Nghỉ phép / Công tác</option>
+              </select>
+            </div>
+          </div>
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Email BDU (@bdu.edu.vn) *</label>
+              <input type="email" id="lecEmail" class="bdu-form-input" required placeholder="VD: phongnt@bdu.edu.vn">
+            </div>
+            <div class="bdu-form-group">
+              <label>Số Điện Thoại / Hotline</label>
+              <input type="tel" id="lecPhone" class="bdu-form-input" placeholder="VD: 0912 345 678">
+            </div>
+          </div>
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Lớp Chủ Nhiệm / Cố Vấn (CVHT)</label>
+              <input type="text" id="lecAdvisingClass" class="bdu-form-input" placeholder="VD: 28NNA01 (K28)">
+            </div>
+            <div class="bdu-form-group">
+              <label>Phòng Làm Việc</label>
+              <input type="text" id="lecOffice" class="bdu-form-input" placeholder="VD: Văn phòng Khoa A2-102" value="Văn phòng Khoa Ngoại Ngữ A2-102">
+            </div>
+          </div>
+          <div class="bdu-form-group">
+            <label>Học Phần Phụ Trách Giảng Dạy</label>
+            <input type="text" id="lecModules" class="bdu-form-input" placeholder="VD: ENG101, ENG201, Biên dịch nâng cao">
+          </div>
+          <div class="bdu-form-group">
+            <label>Hướng Nghiên Cứu Khoa Học</label>
+            <input type="text" id="lecResearch" class="bdu-form-input" placeholder="VD: Trí tuệ nhân tạo trong giảng dạy ngôn ngữ, Ngữ dụng học">
+          </div>
+        </div>
+        <div class="bdu-modal-footer">
+          <button type="button" class="bdu-btn bdu-btn-secondary" id="btnCancelAddLecturer">Hủy</button>
+          <button type="submit" class="bdu-btn bdu-btn-primary">Lưu Giảng Viên</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Thêm Cộng Tác Viên / Thỉnh Giảng Mới -->
+  <div class="bdu-modal-overlay" id="modalAddCollaborator">
+    <div class="bdu-modal-box">
+      <div class="bdu-modal-header">
+        <h3><i class="fa-solid fa-handshake text-amber"></i> Thêm Cộng Tác Viên & Thỉnh Giảng</h3>
+        <button class="modal-close-btn" id="closeAddCollaborator">&times;</button>
+      </div>
+      <form id="formAddCollaborator">
+        <div class="bdu-modal-body">
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Mã Cộng Tác Viên *</label>
+              <input type="text" id="collabCode" class="bdu-form-input" required placeholder="VD: CTV-2026-07">
+            </div>
+            <div class="bdu-form-group">
+              <label>Họ Và Tên *</label>
+              <input type="text" id="collabName" class="bdu-form-input" required placeholder="VD: ThS. Lê Bảo Ngọc">
+            </div>
+          </div>
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Phân Loại Vai Trò *</label>
+              <select id="collabRole" class="bdu-form-select" required>
+                <option value="Giảng viên thỉnh giảng">Giảng viên thỉnh giảng</option>
+                <option value="Trợ giảng (TA)">Trợ giảng học thuật (TA)</option>
+                <option value="Chuyên gia Doanh nghiệp">Chuyên gia Doanh nghiệp / Diễn giả</option>
+                <option value="CTV Đoàn Hội / CLB">CTV Đoàn Hội & CLB ETC</option>
+              </select>
+            </div>
+            <div class="bdu-form-group">
+              <label>Học Vị / Danh Xưng</label>
+              <input type="text" id="collabDegree" class="bdu-form-input" placeholder="VD: ThS., TS., Cử nhân, CEO" value="ThS.">
+            </div>
+          </div>
+          <div class="bdu-form-group">
+            <label>Đơn Vị Công Tác Chính / Doanh Nghiệp *</label>
+            <input type="text" id="collabOrg" class="bdu-form-input" required placeholder="VD: ĐH Quốc Gia TP.HCM / Công ty CP Dịch Thuật BDU Partner">
+          </div>
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Học Phần / Dự Án Trợ Giảng *</label>
+              <input type="text" id="collabCourses" class="bdu-form-input" required placeholder="VD: Trợ giảng ENG101, Speaking Club">
+            </div>
+            <div class="bdu-form-group">
+              <label>Số Giờ / Buổi Tham Gia</label>
+              <input type="number" id="collabHours" class="bdu-form-input" min="0" value="30">
+            </div>
+          </div>
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Tình Trạng Hợp Đồng</label>
+              <select id="collabContract" class="bdu-form-select">
+                <option value="Đang hiệu lực">Đang hiệu lực</option>
+                <option value="Chờ gia hạn">Chờ gia hạn</option>
+                <option value="Hoàn thành kỳ">Hoàn thành kỳ</option>
+              </select>
+            </div>
+            <div class="bdu-form-group">
+              <label>Đánh Giá Chất Lượng</label>
+              <select id="collabRating" class="bdu-form-select">
+                <option value="Xuất sắc">Xuất sắc</option>
+                <option value="Tốt" selected>Tốt</option>
+                <option value="Khá">Khá</option>
+              </select>
+            </div>
+          </div>
+          <div class="bdu-form-row">
+            <div class="bdu-form-group">
+              <label>Email Liên Hệ</label>
+              <input type="email" id="collabEmail" class="bdu-form-input" placeholder="VD: ngoclb.collab@bdu.edu.vn">
+            </div>
+            <div class="bdu-form-group">
+              <label>Số Điện Thoại</label>
+              <input type="tel" id="collabPhone" class="bdu-form-input" placeholder="VD: 0987 654 321">
+            </div>
+          </div>
+        </div>
+        <div class="bdu-modal-footer">
+          <button type="button" class="bdu-btn bdu-btn-secondary" id="btnCancelAddCollaborator">Hủy</button>
+          <button type="submit" class="bdu-btn bdu-btn-primary">Lưu Cộng Tác Viên</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Xem Chi Tiết Hồ Sơ Cá Nhân (Giảng Viên / CTV / Sinh Viên) -->
+  <div class="bdu-modal-overlay" id="modalPersonnelProfile">
+    <div class="bdu-modal-box modal-lg" style="padding: 0; overflow: hidden;">
+      <div class="profile-modal-banner" id="profileBannerContent">
+        <!-- Dynamically Rendered -->
+      </div>
+      <div class="profile-detail-sections" id="profileSectionsContent">
+        <!-- Dynamically Rendered -->
+      </div>
+      <div class="bdu-modal-footer" style="padding: 16px 24px;">
+        <button type="button" class="bdu-btn bdu-btn-secondary" id="btnClosePersonnelProfile">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: BDU SSO Authentication & Login Modal -->
+  <div class="bdu-modal-overlay" id="modalBduLogin">
+    <div class="bdu-modal-box" style="max-width: 480px;">
+      <div class="bdu-modal-header" style="background: linear-gradient(135deg, #005F87 0%, #0284c7 100%); color: #ffffff;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <i class="fa-solid fa-graduation-cap" style="font-size: 22px;"></i>
+          <div>
+            <h3 style="color: #ffffff; margin: 0; font-size: 16px;">Đăng Nhập Cổng BDU</h3>
+            <small style="color: #e0f2fe; font-size: 11px;">Trường Đại học Bình Dương</small>
+          </div>
+        </div>
+        <button class="modal-close-btn" id="closeBduLogin" style="color: #ffffff;">&times;</button>
+      </div>
+      <form id="formBduLogin">
+        <div class="bdu-modal-body">
+          <div class="bdu-auth-alert" id="authErrorAlert">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span id="authErrorMessage"></span>
+          </div>
+
+          <div class="bdu-form-group">
+            <label>Email Đơn Vị BDU (@bdu.edu.vn / @student.bdu.edu.vn) *</label>
+            <input type="email" id="loginEmail" class="bdu-form-input" required placeholder="phphuc@bdu.edu.vn" value="phphuc@bdu.edu.vn">
+            <small style="font-size: 11px; color: var(--bdu-primary); margin-top: 3px; display: block;">
+              <i class="fa-solid fa-shield-check"></i> Chỉ chấp nhận tài khoản có tên miền bdu.edu.vn
+            </small>
+          </div>
+
+          <div class="bdu-form-group">
+            <label>Mật Khẩu *</label>
+            <input type="password" id="loginPassword" class="bdu-form-input" required value="123456" placeholder="Nhập mật khẩu">
+          </div>
+
+          <div class="bdu-form-group">
+            <label>Vai Trò Đăng Nhập</label>
+            <select id="loginRole" class="bdu-form-select">
+              <option value="Ban Chủ Nhiệm & Khảo Thí">Ban Chủ Nhiệm Khoa & Khảo Thí</option>
+              <option value="Trưởng Khoa / Trưởng Bộ Môn">Trưởng Khoa / Trưởng Bộ Môn</option>
+              <option value="Giảng Viên Cơ Hữu">Giảng Viên Cơ Hữu</option>
+              <option value="Cộng Tác Viên / Thỉnh Giảng">Cộng Tác Viên / Thỉnh Giảng</option>
+              <option value="Sinh Viên">Sinh Viên Khoa Ngoại Ngữ</option>
+            </select>
+          </div>
+
+          <!-- Quick Test Accounts -->
+          <div style="margin-top: 16px;">
+            <label style="font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Chọn Nhanh Tài Khoản Thử Nghiệm BDU:</label>
+            <div class="quick-login-pills">
+              <div class="quick-login-chip" onclick="fillQuickLogin('phphuc@bdu.edu.vn', 'Ban Chủ Nhiệm & Khảo Thí')">
+                <div>
+                  <div class="chip-name">ThS. Phạm Hoàng Phúc</div>
+                  <div class="chip-email">phphuc@bdu.edu.vn</div>
+                </div>
+                <span class="badge badge-hot" style="font-size: 10px;">Ban Chủ Nhiệm</span>
+              </div>
+              <div class="quick-login-chip" onclick="fillQuickLogin('anv@bdu.edu.vn', 'Trưởng Khoa / Trưởng Bộ Môn')">
+                <div>
+                  <div class="chip-name">TS. Nguyễn Văn A</div>
+                  <div class="chip-email">anv@bdu.edu.vn</div>
+                </div>
+                <span class="badge badge-role" style="font-size: 10px;">Trưởng Khoa</span>
+              </div>
+              <div class="quick-login-chip" onclick="fillQuickLogin('28nna0101@student.bdu.edu.vn', 'Sinh Viên')">
+                <div>
+                  <div class="chip-name">Trần Minh Tuấn (K28)</div>
+                  <div class="chip-email">28nna0101@student.bdu.edu.vn</div>
+                </div>
+                <span class="badge badge-student-award" style="font-size: 10px;">Sinh Viên</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bdu-modal-footer">
+          <button type="button" class="bdu-btn bdu-btn-secondary" id="btnCancelBduLogin">Hủy</button>
+          <button type="submit" class="bdu-btn bdu-btn-primary" id="btnSubmitLogin">
+            <i class="fa-solid fa-right-to-bracket"></i> Đăng Nhập
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: BDU Official PDF Viewer Modal -->
+  <div class="bdu-modal-overlay" id="modalPdfViewer">
+    <div class="bdu-pdf-modal-box">
+      <!-- Toolbar -->
+      <div class="pdf-viewer-toolbar">
+        <div class="pdf-toolbar-left">
+          <i class="fa-solid fa-file-pdf" style="color: #ef4444; font-size: 20px;"></i>
+          <div>
+            <div class="pdf-doc-title" id="pdfDocTitle">Quyết định ban hành thông báo BDU</div>
+            <div style="font-size: 11px; color: #94a3b8;" id="pdfDocMeta">Số: 88/TB-KNN-ĐHBD • Ngày: 31/08/2026</div>
+          </div>
+          <span class="pdf-doc-badge" id="pdfDocBadge">VĂN BẢN CHÍNH THỨC</span>
+        </div>
+        <div class="pdf-toolbar-controls">
+          <button class="pdf-control-btn" id="btnPdfZoomIn" title="Phóng to"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+          <button class="pdf-control-btn" id="btnPdfZoomOut" title="Thu nhỏ"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+          <button class="pdf-control-btn" id="btnPdfZoomReset" title="Đặt lại kích thước">100%</button>
+          <button class="pdf-control-btn" id="btnPdfDownloadDoc" title="Tải file PDF / Word"><i class="fa-solid fa-download"></i> Tải Về</button>
+          <button class="pdf-control-btn" id="btnPdfPrintDoc" title="In văn bản"><i class="fa-solid fa-print"></i> In</button>
+          <button class="pdf-control-btn" id="btnClosePdfViewer" style="background: rgba(239, 68, 68, 0.4);"><i class="fa-solid fa-xmark"></i> Đóng</button>
+        </div>
+      </div>
+
+      <!-- PDF Canvas View Sheet -->
+      <div class="pdf-viewer-canvas-wrap">
+        <div class="pdf-page-sheet" id="pdfPageSheetContent">
+          <!-- Dynamically populated PDF content -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="bdu-toast-container"></div>
+
+  <!-- App Script Entrypoint -->
+  <script src="/bdu_forms_data.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

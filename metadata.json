@@ -1,0 +1,6 @@
+{
+  "name": "Cổng Thông Tin & Quản Lý Khoa Ngoại Ngữ - BDU",
+  "description": "Cổng thông tin và hệ thống quản lý toàn diện Khoa Ngoại Ngữ Đại học Bình Dương (BDU): Quản lý Giảng viên cơ hữu, Giảng viên thỉnh giảng & Cộng tác viên, Hồ sơ sinh viên, Minh chứng Hub 5W, Chuyên cần đào tạo, Nhiệm vụ, NCKH, Analytics Dashboard và Báo cáo hành chính BDU.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
