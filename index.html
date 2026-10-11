@@ -1127,9 +1127,10 @@
             <div id="folderExplorerSection" class="no-print">
               <div class="bdu-subhead-row">
                 <span><i class="fa-brands fa-google-drive text-gdrive"></i> Danh Mục Thư Mục Google Drive (<span
-                    id="folderCountBadge">5 thư mục</span>)</span>
-                <a href="https://drive.google.com/drive/folders/1MKddXGc-odjUw4oP3M960Ex-YRcdF0_G?usp=sharing"
-                  target="_blank" class="bdu-btn bdu-btn-sm bdu-btn-outline-gdrive">
+                    id="folderCountBadge">0 thư mục</span>)</span>
+                <a href="https://drive.google.com/drive/folders/1L1152C-QWDafrT-HXN1kknv7eSIPJb8C?usp=drive_link"
+                  id="btnOpenDriveMainRoot" target="_blank" rel="noopener noreferrer" class="bdu-btn bdu-btn-sm bdu-btn-outline-gdrive"
+                  title="Mở thư mục gốc Google Drive Khoa Ngoại Ngữ trên trình duyệt">
                   <i class="fa-brands fa-google-drive"></i> Mở Drive Khoa Ngoại Ngữ
                 </a>
               </div>
@@ -1141,7 +1142,7 @@
             <!-- Evidence Section Header -->
             <div class="bdu-subhead-row">
               <span><i class="fa-solid fa-file-shield text-primary"></i> Danh Sách Minh Chứng & Hồ Sơ Đính Kèm (<span
-                  id="evidenceTotalBadge">6 minh chứng</span>)</span>
+                  id="evidenceTotalBadge">0 minh chứng</span>)</span>
               <small class="text-muted"><i class="fa-solid fa-check-double text-success"></i> Tiêu chuẩn 5W: When,
                 Where, What, Who & Proof Link</small>
             </div>
@@ -2014,8 +2015,20 @@
       </div>
       <form id="formAddFolder">
         <div class="bdu-modal-body">
+          <div style="background: rgba(15, 157, 88, 0.08); border: 1px solid rgba(15, 157, 88, 0.25); border-radius: var(--radius-sm); padding: 12px; margin-bottom: 16px; font-size: 12.5px; color: var(--text-main); line-height: 1.5;">
+            <div style="font-weight: 700; color: #0f9d58; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between;">
+              <span><i class="fa-brands fa-google-drive"></i> Cách tạo thư mục & lấy liên kết:</span>
+              <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" style="color: #0f9d58; text-decoration: underline; font-weight: 600;">
+                Mở Drive.google.com ↗
+              </a>
+            </div>
+            1. Vào Google Drive &rarr; Nhấn <strong>Mới (+)</strong> &rarr; <strong>Thư mục mới</strong>.<br>
+            2. Chuột phải vào thư mục &rarr; Chọn <strong>Chia sẻ</strong> &rarr; Đổi thành <em>"Bất kỳ ai có đường liên kết"</em> (Người xem/Người chỉnh sửa).<br>
+            3. Nhấn <strong>Sao chép đường liên kết</strong> và dán vào ô bên dưới!
+          </div>
+
           <div class="bdu-form-group">
-            <label>Tên Thư Mục *</label>
+            <label>Tên Thư Mục Minh Chứng *</label>
             <input type="text" id="foldName" class="bdu-form-input" required placeholder="VD: 06_Minh_Chung_K28_HK1">
           </div>
           <div class="bdu-form-group">
@@ -2027,20 +2040,28 @@
             </select>
           </div>
           <div class="bdu-form-group">
-            <label>Đường Dẫn Google Drive Folder (URL / ID) *</label>
-            <input type="url" id="foldDriveUrl" class="bdu-form-input" required
-              placeholder="https://drive.google.com/drive/folders/..."
-              value="https://drive.google.com/drive/folders/1bdu_evidence_folder">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <label style="margin-bottom: 0;">Đường Dẫn Google Drive Folder (URL hoặc ID) *</label>
+              <button type="button" class="bdu-btn-text" style="font-size: 11.5px; color: #0f9d58; font-weight: 600;"
+                onclick="document.getElementById('foldDriveUrl').value='https://drive.google.com/drive/folders/1L1152C-QWDafrT-HXN1kknv7eSIPJb8C';">
+                <i class="fa-brands fa-google-drive"></i> Dán thư mục Khoa (1L1152C...)
+              </button>
+            </div>
+            <input type="text" id="foldDriveUrl" class="bdu-form-input" required style="margin-top: 6px;"
+              placeholder="https://drive.google.com/drive/folders/1L1152C-QWDafrT-HXN1kknv7eSIPJb8C hoặc mã ID">
+            <small style="color: var(--text-muted); font-size: 11.5px; margin-top: 4px; display: block;">
+              Hệ thống sẽ gắn liên kết này vào thẻ thư mục để bạn bấm vào là mở ngay trên Google Drive.
+            </small>
           </div>
           <div class="bdu-form-group">
-            <label>Mô Tả Thư Mục</label>
+            <label>Mô Tả Thư Mục (Tùy chọn)</label>
             <input type="text" id="foldDescription" class="bdu-form-input"
-              placeholder="VD: Lưu trữ giấy khen và chứng chỉ ngoại ngữ HK1">
+              placeholder="VD: Lưu trữ giấy khen và chứng chỉ ngoại ngữ HK1 năm học 2026 - 2027">
           </div>
         </div>
         <div class="bdu-modal-footer">
           <button type="button" class="bdu-btn bdu-btn-secondary" id="btnCancelAddFolder">Hủy</button>
-          <button type="submit" class="bdu-btn bdu-btn-gdrive">Tạo Thư Mục</button>
+          <button type="submit" class="bdu-btn bdu-btn-gdrive"><i class="fa-solid fa-folder-plus"></i> Tạo & Lưu Thư Mục</button>
         </div>
       </form>
     </div>
@@ -2153,20 +2174,39 @@
           </div>
 
           <div class="bdu-form-row">
-            <div class="bdu-form-group">
+            <div class="bdu-form-group" style="flex: 0 0 160px;">
               <label>Điểm Rèn Luyện (+ĐRL)</label>
-              <input type="number" id="evPoints" class="bdu-form-input" min="1" max="30" value="10">
+              <input type="number" id="evPoints" class="bdu-form-input" min="1" max="50" value="10">
             </div>
-            <div class="bdu-form-group">
-              <label>Link File Google Drive (Proof URL)</label>
-              <input type="url" id="evDriveUrl" class="bdu-form-input" placeholder="https://drive.google.com/file/d/..."
-                value="https://drive.google.com/file/d/1bdu_evidence_demo/view">
+            <div class="bdu-form-group" style="flex: 1;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <label style="margin-bottom: 0;">Link File / Thư Mục Google Drive (Proof URL) *</label>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                  <button type="button" class="bdu-btn-text" id="btnSyncDriveFromFile" style="display: none; font-size: 11px; color: #0284c7; font-weight: 600;" title="Dùng link File vừa tải lên Drive">
+                    <i class="fa-solid fa-file-circle-check"></i> Dùng Link File Vừa Tải
+                  </button>
+                  <button type="button" class="bdu-btn-text" id="btnSyncDriveFromFolder" style="font-size: 11px; color: #0f9d58; font-weight: 600;" title="Lấy link từ Thư mục Drive đang chọn ở trên">
+                    <i class="fa-solid fa-rotate"></i> Lấy Link Thư Mục
+                  </button>
+                  <button type="button" class="bdu-btn-text" id="btnSyncDriveFromRoot" style="font-size: 11px; color: var(--bdu-primary); font-weight: 600;" title="Dán nhanh link Thư mục Drive Khoa">
+                    <i class="fa-brands fa-google-drive"></i> Link Thư Mục Khoa
+                  </button>
+                </div>
+              </div>
+              <input type="url" id="evDriveUrl" class="bdu-form-input" required
+                placeholder="https://drive.google.com/drive/folders/... hoặc link file tải lên">
+              <small style="color: var(--text-muted); font-size: 11px; margin-top: 3px; display: block;">
+                Tự động lấy theo Thư mục Drive đã chọn hoặc nhận link file tải lên sau khi nhấn "Tải Lên Drive".
+              </small>
             </div>
           </div>
           <div class="bdu-form-group">
-            <label>Đường Dẫn Hình Ảnh Minh Chứng (Image URL)</label>
-            <input type="url" id="evImageUrl" class="bdu-form-input" placeholder="https://..."
-              value="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&auto=format&fit=crop&q=80">
+            <label>Đường Dẫn Hình Ảnh / Ảnh Thu Nhỏ Minh Chứng (Tùy chọn)</label>
+            <input type="url" id="evImageUrl" class="bdu-form-input"
+              placeholder="Tự động nạp khi chọn file ảnh từ máy, hoặc dán link ảnh https://...">
+            <small style="color: var(--text-muted); font-size: 11px; margin-top: 3px; display: block;">
+              Khi bạn chọn file ảnh ở phần "Tệp Đính Kèm", hệ thống sẽ tự động dùng ảnh thật của bạn thay vì ảnh mẫu.
+            </small>
           </div>
         </div>
         <div class="bdu-modal-footer">
@@ -2832,7 +2872,7 @@
           <label><strong>URL Web App Google Apps Script (API Endpoint) *</strong></label>
           <div style="display: flex; gap: 8px;">
             <input type="url" id="driveScriptUrlInput" class="bdu-form-input"
-              value="https://script.google.com/macros/s/AKfycbzPYEVmjhovp4HoTxHbelPjcSyClsr7hejUYfAt5NYoXJlJicySvBPBRPYKFP9DURbQ/exec"
+              value="https://script.google.com/macros/s/AKfycbwyMMgSakMd8VvHobdAJrSfcxkK1mdRNWJqd5VOz_Xw8mtexH28IQWCvxr4BC2Kwm7U/exec"
               placeholder="https://script.google.com/macros/s/AKfycb.../exec">
             <button type="button" class="bdu-btn bdu-btn-secondary" id="btnTestDriveConnection"
               style="white-space: nowrap;">
@@ -2848,7 +2888,7 @@
         <div class="bdu-form-group">
           <label>ID Thư Mục Google Drive Mặc Định (Folder ID - Tùy chọn)</label>
           <input type="text" id="driveDefaultFolderIdInput" class="bdu-form-input"
-            value="1MKddXGc-odjUw4oP3M960Ex-YRcdF0_G"
+            value="1L1152C-QWDafrT-HXN1kknv7eSIPJb8C"
             placeholder="VD: 1B_xyzAbCdEfG123456789... (Để trống nếu đã cài trong script)">
         </div>
 
@@ -2900,7 +2940,7 @@
 
             var data = JSON.parse(e.postData.contents);
             var folder;
-            var targetFolderId = data.folderId || "1MKddXGc-odjUw4oP3M960Ex-YRcdF0_G";
+            var targetFolderId = data.folderId || "1L1152C-QWDafrT-HXN1kknv7eSIPJb8C";
 
             // Tự động tìm thư mục hoặc lưu vào thư mục gốc nếu chưa có ID
             if (targetFolderId && targetFolderId.length > 5) {
