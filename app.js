@@ -3534,8 +3534,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // 1. Quản lý cấu hình Google Drive
 const DEFAULT_DRIVE_CONFIG = {
-  scriptUrl: 'https://script.google.com/macros/s/AKfycbwyMMgSakMd8VvHobdAJrSfcxkK1mdRNWJqd5VOz_Xw8mtexH28IQWCvxr4BC2Kwm7U/exec',
-  defaultFolderId: '1L1152C-QWDafrT-HXN1kknv7eSIPJb8C'
+  scriptUrl: 'https://script.google.com/macros/s/AKfycbzPYEVmjhovp4HoTxHbelPjcSyClsr7hejUYfAt5NYoXJlJicySvBPBRPYKFP9DURbQ/exec',
+  defaultFolderId: '1MKddXGc-odjUw4oP3M960Ex-YRcdF0_G'
 };
 
 function getDriveConfig() {
