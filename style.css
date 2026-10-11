@@ -4216,4 +4216,203 @@ body {
   }
 }
 
+/* ======================================================= */
+/* GOOGLE DRIVE INTEGRATION & DIRECT UPLOADER COMPONENTS   */
+/* ======================================================= */
+.btn-gdrive-tool {
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+.btn-gdrive-tool:hover {
+  background: var(--gdrive-light) !important;
+  color: var(--gdrive-color) !important;
+}
+
+.drive-file-uploader-box {
+  background: var(--bg-surface-alt);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  margin-top: 6px;
+}
+
+.drive-drop-area {
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 22px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  background: var(--bg-card);
+}
+
+.drive-drop-area:hover, .drive-drop-area.dragover {
+  border-color: var(--gdrive-color);
+  background: var(--gdrive-light);
+}
+
+.drive-drop-area .drop-icon {
+  font-size: 32px;
+  color: var(--gdrive-color);
+  margin-bottom: 8px;
+}
+
+.drive-drop-area .drop-text strong {
+  display: block;
+  font-size: 13.5px;
+  color: var(--text-main);
+}
+
+.drive-drop-area .drop-text span {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.drive-selected-file-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-top: 10px;
+}
+
+.drive-selected-file-info .file-info-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  overflow: hidden;
+}
+
+.drive-selected-file-info .file-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-size: 20px;
+  color: var(--gdrive-color);
+  flex-shrink: 0;
+}
+
+.drive-selected-file-info .file-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.drive-selected-file-info .file-meta {
+  overflow: hidden;
+}
+
+.drive-selected-file-info .file-name {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
+}
+
+.drive-selected-file-info .file-size {
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.drive-upload-status {
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+.drive-upload-status .upload-status-text {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.drive-progress-track {
+  height: 6px;
+  background: var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.drive-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #10b981, #059669);
+  transition: width 0.3s ease;
+}
+
+.drive-config-code-box {
+  position: relative;
+  background: #1e293b;
+  color: #f1f5f9;
+  border-radius: 8px;
+  padding: 14px;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  max-height: 220px;
+  overflow-y: auto;
+  margin-top: 8px;
+}
+
+.drive-copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  padding: 4px 10px;
+  font-size: 11px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.drive-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.drive-guide-step-card {
+  display: flex;
+  gap: 12px;
+  background: var(--bg-surface-alt);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  align-items: flex-start;
+  font-size: 12.5px;
+}
+
+.drive-guide-step-num {
+  width: 22px;
+  height: 22px;
+  background: var(--bdu-primary);
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+
 

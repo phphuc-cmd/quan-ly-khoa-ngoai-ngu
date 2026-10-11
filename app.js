@@ -1173,6 +1173,7 @@ function deleteEvidence(id) {
     state.evidence = state.evidence.filter(e => e.id !== id);
     renderEvidenceMainArea();
     updateCounters();
+    if (typeof saveEvidenceToLocal === 'function') saveEvidenceToLocal();
     showToast('Đã xóa minh chứng!', 'info');
   }
 }
@@ -1775,7 +1776,7 @@ function generateWeeklyReportHtml() {
       <p>- Xử lý kịp thời 100% các yêu cầu xác nhận bảng điểm, giấy xác nhận sinh viên và hỗ trợ học bổng chính sách.</p>
 
       <h4>III. TIẾN ĐỘ THỰC HIỆN NHIỆM VỤ 3 KHỐI VAI TRÒ TRONG TUẦN</h4>
-      <p>- Đã hoàn thành <strong>${doneTasks}/${totalTasks} nhiệm vụ</strong> (${totalTasks ? Math.round((doneTasks/totalTasks)*100) : 0}% khối lượng được giao trong tuần).</p>
+      <p>- Đã hoàn thành <strong>${doneTasks}/${totalTasks} nhiệm vụ</strong> (${totalTasks ? Math.round((doneTasks / totalTasks) * 100) : 0}% khối lượng được giao trong tuần).</p>
       <p>- Đang triển khai khẩn trương <strong>${inProgTasks} nhiệm vụ</strong> (chuẩn bị đề cương giữa kỳ, rà soát học liệu LMS, cập nhật hồ sơ kiểm định).</p>
 
       <h4>IV. HOẠT ĐỘNG PHONG TRÀO, MINH CHỨNG 5W & CLB NGOẠI NGỮ</h4>
@@ -1870,7 +1871,7 @@ function generateMonthlyReportHtml() {
       <p>- Giảng viên khoa đã hoàn thành 02 bài báo khoa học chuẩn bị đăng trên Tạp chí Khoa học & Công nghệ Đại học Bình Dương.</p>
 
       <h4>IV. TIẾN ĐỘ THỰC HIỆN NHIỆM VỤ 3 KHỐI VAI TRÒ</h4>
-      <p>- Tỷ lệ hoàn thành nhiệm vụ được giao trong tháng: đạt <strong>${doneTasks}/${totalTasks} nhiệm vụ</strong> (${totalTasks ? Math.round((doneTasks/totalTasks)*100) : 0}%).</p>
+      <p>- Tỷ lệ hoàn thành nhiệm vụ được giao trong tháng: đạt <strong>${doneTasks}/${totalTasks} nhiệm vụ</strong> (${totalTasks ? Math.round((doneTasks / totalTasks) * 100) : 0}%).</p>
       <p>- Khối Giáo vụ: Hoàn thành xếp lịch thi giữa kỳ, kiểm tra cơ sở vật chất phòng Lab ngoại ngữ.</p>
       <p>- Khối GVCN: Hoàn tất 100% biên bản họp lớp và gửi thông báo kết quả học tập đến phụ huynh.</p>
       <p>- Khối Đoàn - Hội: Tổ chức thành công chuỗi tọa đàm văn hóa quốc tế và Ngày hội Ngoại ngữ BDU 2026.</p>
@@ -1950,7 +1951,7 @@ function generateQuarterlyReportHtml() {
           <tr>
             <td>Xử lý cảnh báo học vụ</td>
             <td style="text-align:center;">&le; 5% SV</td>
-            <td style="text-align:center; font-weight:700;">${((warnStu/totalStu)*100).toFixed(1)}%</td>
+            <td style="text-align:center; font-weight:700;">${((warnStu / totalStu) * 100).toFixed(1)}%</td>
             <td style="text-align:center; color:#15803d; font-weight:700;">Đạt</td>
             <td>GVCN can thiệp kịp thời</td>
           </tr>
@@ -2286,11 +2287,11 @@ function handleExcelFileSelect(file, hint) {
   }
 
   const reader = new FileReader();
-  reader.onload = function(e) {
+  reader.onload = function (e) {
     try {
       const data = new Uint8Array(e.target.result);
       const workbook = XLSX.read(data, { type: 'array' });
-      
+
       const parsed = {
         students: [],
         lecturers: [],
@@ -2306,7 +2307,7 @@ function handleExcelFileSelect(file, hint) {
         if (!rows || rows.length === 0) return;
 
         const sLower = (hint || sheetName).toLowerCase();
-        
+
         if (sLower.includes('sinh') || sLower.includes('student') || sLower.includes('hoc_sinh')) {
           rows.forEach((r, idx) => {
             const code = r['MSSV'] || r['Mã SV'] || r['Mã Sinh Viên'] || r['Code'] || `28NN${1000 + idx}`;
@@ -2595,7 +2596,7 @@ function appendAiMessage(role, text) {
 
   const msgDiv = document.createElement('div');
   msgDiv.className = `ai-msg-bubble ${role === 'user' ? 'ai-user-bubble' : 'ai-agent-bubble'}`;
-  
+
   if (role === 'user') {
     msgDiv.innerHTML = `
       <div class="ai-msg-header"><i class="fa-solid fa-user text-primary mr-1"></i> Bạn</div>
@@ -2743,31 +2744,31 @@ function exportMasterExcel() {
   const wb = XLSX.utils.book_new();
 
   // Sheet 1: Lecturers
-  const s1 = state.lecturers.map((l, i) => ({ 'STT': i+1, 'Mã CB': l.code, 'Họ Tên': l.name, 'Học Vị': l.degree, 'Tổ Bộ Môn': l.department, 'Chức Vụ': l.position, 'Email': l.email, 'SĐT': l.phone, 'Học Phần': l.modules }));
+  const s1 = state.lecturers.map((l, i) => ({ 'STT': i + 1, 'Mã CB': l.code, 'Họ Tên': l.name, 'Học Vị': l.degree, 'Tổ Bộ Môn': l.department, 'Chức Vụ': l.position, 'Email': l.email, 'SĐT': l.phone, 'Học Phần': l.modules }));
   XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(s1), '1_Giang_Vien');
 
   // Sheet 2: Collaborators
-  const s2 = state.collaborators.map((c, i) => ({ 'STT': i+1, 'Mã CTV': c.code, 'Họ Tên': c.name, 'Vai Trò': c.role, 'Đơn Vị': c.org, 'Học Phần': c.courses, 'Số Giờ': c.hours, 'Hợp Đồng': c.contract }));
+  const s2 = state.collaborators.map((c, i) => ({ 'STT': i + 1, 'Mã CTV': c.code, 'Họ Tên': c.name, 'Vai Trò': c.role, 'Đơn Vị': c.org, 'Học Phần': c.courses, 'Số Giờ': c.hours, 'Hợp Đồng': c.contract }));
   XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(s2), '2_Cong_Tac_Vien');
 
   // Sheet 3: Students
-  const s3 = state.students.map((s, i) => ({ 'STT': i+1, 'MSSV': s.code, 'Họ Tên': s.name, 'Khóa': s.cohort, 'Chuyên Ngành': s.major, 'GPA': s.gpa, 'Trạng Thái': s.status, 'Cố Vấn': s.advisor, 'Email': s.email }));
+  const s3 = state.students.map((s, i) => ({ 'STT': i + 1, 'MSSV': s.code, 'Họ Tên': s.name, 'Khóa': s.cohort, 'Chuyên Ngành': s.major, 'GPA': s.gpa, 'Trạng Thái': s.status, 'Cố Vấn': s.advisor, 'Email': s.email }));
   XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(s3), '3_Sinh_Vien');
 
   // Sheet 4: Evidence
-  const s4 = state.evidence.map((e, i) => ({ 'STT': i+1, 'Minh Chứng': e.title, 'Phân Loại': e.category, 'MSSV': e.studentCode, 'Họ Tên': e.studentName, 'Đơn Vị Cấp': e.issuer, 'Điểm RL': e.points, 'Link Drive': e.driveUrl }));
+  const s4 = state.evidence.map((e, i) => ({ 'STT': i + 1, 'Minh Chứng': e.title, 'Phân Loại': e.category, 'MSSV': e.studentCode, 'Họ Tên': e.studentName, 'Đơn Vị Cấp': e.issuer, 'Điểm RL': e.points, 'Link Drive': e.driveUrl }));
   XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(s4), '4_Minh_Chung');
 
   // Sheet 5: Training
-  const s5 = state.training.map((t, i) => ({ 'STT': i+1, 'Mã HP': t.code, 'Tên Môn': t.name, 'Giảng Viên': t.lecturer, 'Hệ': t.program, 'Tiết Đã Học': `${t.completedLessons}/${t.totalLessons}`, 'Chuyên Cần (%)': t.attendance }));
+  const s5 = state.training.map((t, i) => ({ 'STT': i + 1, 'Mã HP': t.code, 'Tên Môn': t.name, 'Giảng Viên': t.lecturer, 'Hệ': t.program, 'Tiết Đã Học': `${t.completedLessons}/${t.totalLessons}`, 'Chuyên Cần (%)': t.attendance }));
   XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(s5), '5_Dao_Tao');
 
   // Sheet 6: Tasks
-  const s6 = state.tasks.map((tk, i) => ({ 'STT': i+1, 'Bộ Phận': tk.role, 'Nhiệm Vụ': tk.title, 'Phụ Trách': tk.assignee, 'Hạn Chót': tk.deadline, 'Ưu Tiên': tk.priority, 'Trạng Thái': tk.status }));
+  const s6 = state.tasks.map((tk, i) => ({ 'STT': i + 1, 'Bộ Phận': tk.role, 'Nhiệm Vụ': tk.title, 'Phụ Trách': tk.assignee, 'Hạn Chót': tk.deadline, 'Ưu Tiên': tk.priority, 'Trạng Thái': tk.status }));
   XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(s6), '6_Nhiem_Vu');
 
   // Sheet 7: Research
-  const s7 = state.research.map((r, i) => ({ 'STT': i+1, 'Mã Đề Tài': r.code, 'Tên Đề Tài': r.title, 'GV Hướng Dẫn': r.mentor, 'Sinh Viên': r.students, 'Cấp': r.level, 'Sản Phẩm': r.output, 'Trạng Thái': r.status }));
+  const s7 = state.research.map((r, i) => ({ 'STT': i + 1, 'Mã Đề Tài': r.code, 'Tên Đề Tài': r.title, 'GV Hướng Dẫn': r.mentor, 'Sinh Viên': r.students, 'Cấp': r.level, 'Sản Phẩm': r.output, 'Trạng Thái': r.status }));
   XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(s7), '7_NCKH');
 
   XLSX.writeFile(wb, `BDU_Master_NgonNguAnh_Database_${new Date().toISOString().slice(0, 10)}.xlsx`);
@@ -2836,7 +2837,7 @@ async function downloadStandaloneHtmlApp() {
     // Replace <script src="/script.js"> with inline script containing embedded state
     const scriptTag = docClone.querySelector('script[src*="script.js"]');
     const embeddedScript = document.createElement('script');
-    
+
     // Inject script that overrides initial state with latest state and runs
     embeddedScript.textContent = `
       // Injected State from Export
@@ -2997,9 +2998,11 @@ function initModals() {
       state.evidence.unshift(newEv);
       renderEvidenceMainArea();
       updateCounters();
+      if (typeof saveEvidenceToLocal === 'function') saveEvidenceToLocal();
       document.getElementById('modalAddEvidence')?.classList.remove('active');
       fEv.reset();
-      showToast(`Đã tải minh chứng ${newEv.title}!`, 'success');
+      if (typeof resetEvidenceUploadUI === 'function') resetEvidenceUploadUI();
+      showToast(`Đã lưu minh chứng: ${newEv.title}!`, 'success');
     };
   }
 
@@ -3324,10 +3327,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ----- Mục 1: Trung tâm nhân sự (4 tab con) -----
 const PERSONNEL_SUBTABS = {
-  'subpane-lecturers':     { btn: 'btnSubtabLecturers',     kpi: 'kpiCardLecturers',     render: () => renderLecturers() },
+  'subpane-lecturers': { btn: 'btnSubtabLecturers', kpi: 'kpiCardLecturers', render: () => renderLecturers() },
   'subpane-collaborators': { btn: 'btnSubtabCollaborators', kpi: 'kpiCardCollaborators', render: () => renderCollaborators() },
-  'subpane-students':      { btn: 'btnSubtabStudents',      kpi: 'kpiCardStudents',      render: () => renderStudents() },
-  'subpane-matrix':        { btn: 'btnSubtabMatrix',        kpi: 'kpiCardMatrix',        render: () => renderAdvisorMatrix() }
+  'subpane-students': { btn: 'btnSubtabStudents', kpi: 'kpiCardStudents', render: () => renderStudents() },
+  'subpane-matrix': { btn: 'btnSubtabMatrix', kpi: 'kpiCardMatrix', render: () => renderAdvisorMatrix() }
 };
 
 function switchPersonnelSubtab(paneId) {
@@ -3523,4 +3526,514 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btnExportLecturerExcel')?.addEventListener('click', () => { state.personnelSubtab = 'subpane-lecturers'; exportCurrentPersonnelTab(); });
   document.getElementById('btnExportCollabExcel')?.addEventListener('click', () => { state.personnelSubtab = 'subpane-collaborators'; exportCurrentPersonnelTab(); });
   document.getElementById('btnExportStudentExcel')?.addEventListener('click', () => { state.personnelSubtab = 'subpane-students'; exportCurrentPersonnelTab(); });
+});
+
+/* ===================================================================
+ * GOOGLE DRIVE APPS SCRIPT INTEGRATION & LOCAL DATA PERSISTENCE
+ * =================================================================== */
+
+// 1. Quản lý cấu hình Google Drive
+const DEFAULT_DRIVE_CONFIG = {
+  scriptUrl: 'https://script.google.com/macros/s/AKfycbwyMMgSakMd8VvHobdAJrSfcxkK1mdRNWJqd5VOz_Xw8mtexH28IQWCvxr4BC2Kwm7U/exec',
+  defaultFolderId: '1L1152C-QWDafrT-HXN1kknv7eSIPJb8C'
+};
+
+function getDriveConfig() {
+  try {
+    const raw = localStorage.getItem('bdu_drive_config');
+    if (!raw) return DEFAULT_DRIVE_CONFIG;
+    const parsed = JSON.parse(raw);
+    return {
+      scriptUrl: parsed.scriptUrl || DEFAULT_DRIVE_CONFIG.scriptUrl,
+      defaultFolderId: parsed.defaultFolderId || DEFAULT_DRIVE_CONFIG.defaultFolderId
+    };
+  } catch (e) {
+    return DEFAULT_DRIVE_CONFIG;
+  }
+}
+
+function saveDriveConfig(config) {
+  try {
+    localStorage.setItem('bdu_drive_config', JSON.stringify(config));
+    updateDriveStatusUI();
+    return true;
+  } catch (e) {
+    console.error('Không thể lưu cấu hình Drive:', e);
+    return false;
+  }
+}
+
+function updateDriveStatusUI() {
+  const cfg = getDriveConfig();
+  const textEl = document.getElementById('driveConnectionStateText');
+  const badgeEl = document.getElementById('btnDriveStatusBadge');
+
+  if (textEl) {
+    if (cfg.scriptUrl && cfg.scriptUrl.trim().length > 10) {
+      textEl.textContent = 'Đã Kết Nối Đám Mây';
+      textEl.style.color = 'var(--gdrive-color)';
+      if (badgeEl) badgeEl.title = `Đã kết nối Web App: ${cfg.scriptUrl.slice(0, 35)}... (Bấm để đổi)`;
+    } else {
+      textEl.textContent = 'Chưa Cấu Hình Script';
+      textEl.style.color = 'var(--bdu-amber)';
+      if (badgeEl) badgeEl.title = 'Bấm để cài đặt URL Google Apps Script nhận file';
+    }
+  }
+}
+
+// 2. Tự động lưu & phục hồi danh sách minh chứng trên trình duyệt
+function saveEvidenceToLocal() {
+  try {
+    localStorage.setItem('bdu_app_evidence', JSON.stringify(state.evidence));
+  } catch (e) {
+    console.error('Lỗi lưu minh chứng:', e);
+  }
+}
+
+function loadEvidenceFromLocal() {
+  try {
+    const raw = localStorage.getItem('bdu_app_evidence');
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        state.evidence = parsed;
+      }
+    }
+  } catch (e) {
+    console.error('Lỗi nạp minh chứng từ local:', e);
+  }
+}
+
+// 3. Hàm tải file lên Google Drive qua Apps Script (Hỗ trợ Base64)
+async function uploadFileToDrive(file, folderId, onProgress) {
+  const cfg = getDriveConfig();
+  const scriptUrl = (cfg.scriptUrl || '').trim();
+
+  if (!scriptUrl || scriptUrl.length < 10) {
+    throw new Error('Chưa thiết lập URL Google Apps Script! Vui lòng bấm vào "Cài đặt Google Script" để dán URL Web App.');
+  }
+
+  if (scriptUrl.endsWith('/dev')) {
+    throw new Error('Bạn đang dùng link có đuôi "/dev" (dành cho thử nghiệm nội bộ). Vui lòng dùng link Web App chính thức có đuôi "/exec" (lấy từ mục Triển khai mới)!');
+  }
+
+  if (file.size > 26 * 1024 * 1024) {
+    throw new Error('Tệp vượt quá giới hạn 25MB của Google Apps Script. Vui lòng chọn tệp nhỏ hơn!');
+  }
+
+  if (typeof onProgress === 'function') onProgress(15, 'Đang đọc tệp và mã hóa dữ liệu...');
+
+  // Đọc file sang Base64
+  const base64Data = await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const res = reader.result;
+      const commaIdx = res.indexOf(',');
+      resolve(commaIdx !== -1 ? res.slice(commaIdx + 1) : res);
+    };
+    reader.onerror = () => reject(new Error('Không thể đọc tệp từ thiết bị!'));
+    reader.readAsDataURL(file);
+  });
+
+  if (typeof onProgress === 'function') onProgress(45, 'Đang truyền dữ liệu lên Google Drive...');
+
+  const payload = {
+    fileName: file.name,
+    mimeType: file.type || 'application/octet-stream',
+    base64: base64Data,
+    folderId: folderId || cfg.defaultFolderId || ''
+  };
+
+  try {
+    const response = await fetch(scriptUrl, {
+      method: 'POST',
+      // Dùng text/plain để tránh preflight OPTIONS bị chặn CORS bởi Google
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+      redirect: 'follow'
+    });
+
+    if (!response.ok) {
+      throw new Error(`Máy chủ Google phản hồi HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    if (typeof onProgress === 'function') onProgress(85, 'Đang hoàn tất xử lý liên kết...');
+
+    const result = await response.json();
+    if (result.status === 'success' || result.url) {
+      if (typeof onProgress === 'function') onProgress(100, 'Tải lên hoàn tất!');
+      return result;
+    } else {
+      throw new Error(result.message || 'Lỗi không xác định từ Google Apps Script.');
+    }
+  } catch (err) {
+    console.error('Lỗi khi fetch Google Apps Script:', err);
+    if (err.message && (err.message.includes('Failed to fetch') || err.name === 'TypeError')) {
+      throw new Error(
+        'Lỗi "Failed to fetch" khi kết nối tới Google Apps Script!\n\n' +
+        '👉 2 nguyên nhân phổ biến nhất:\n' +
+        '1. Khi Deploy Web App, mục "Who has access" (Ai có quyền truy cập) bạn ĐANG ĐỂ LÀ "Only myself" thay vì "Anyone" (Bất kỳ ai). Vui lòng Deploy lại và chọn "Anyone".\n' +
+        '2. Bạn đang dùng URL kết thúc bằng "/dev" thay vì "/exec". Hãy tạo "Bản triển khai mới" để lấy link "/exec".\n' +
+        '3. Bạn chưa cấp quyền cho script truy cập Google Drive khi Google hỏi.'
+      );
+    }
+    throw err;
+  }
+}
+
+// 4. Quản lý UI Upload trong Form Thêm Minh Chứng
+let currentEvidenceFile = null;
+
+function resetEvidenceUploadUI() {
+  currentEvidenceFile = null;
+  const fileInput = document.getElementById('evFileInput');
+  if (fileInput) fileInput.value = '';
+  document.getElementById('evDriveDropArea')?.classList.remove('hidden');
+  document.getElementById('evSelectedFileInfo')?.classList.add('hidden');
+  document.getElementById('evUploadStatus')?.classList.add('hidden');
+  const bar = document.getElementById('evUploadProgressBar');
+  if (bar) bar.style.width = '0%';
+}
+
+function handleEvidenceFileSelected(file) {
+  if (!file) return;
+  currentEvidenceFile = file;
+
+  const dropArea = document.getElementById('evDriveDropArea');
+  const infoBox = document.getElementById('evSelectedFileInfo');
+  const nameEl = document.getElementById('evFileName');
+  const sizeEl = document.getElementById('evFileSize');
+  const thumbEl = document.getElementById('evFileThumb');
+
+  if (dropArea) dropArea.classList.add('hidden');
+  if (infoBox) infoBox.classList.remove('hidden');
+  if (nameEl) nameEl.textContent = file.name;
+  if (sizeEl) sizeEl.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+
+  // Preview thumbnail nếu là ảnh
+  if (thumbEl) {
+    if (file.type.startsWith('image/')) {
+      const url = URL.createObjectURL(file);
+      thumbEl.innerHTML = `<img src="${url}" alt="Preview" style="width:100%; height:100%; object-fit:cover;">`;
+    } else if (file.type.includes('pdf')) {
+      thumbEl.innerHTML = `<i class="fa-solid fa-file-pdf text-danger"></i>`;
+    } else if (file.type.includes('word') || file.name.endsWith('.doc') || file.name.endsWith('.docx')) {
+      thumbEl.innerHTML = `<i class="fa-solid fa-file-word text-primary"></i>`;
+    } else if (file.type.includes('sheet') || file.name.endsWith('.xls') || file.name.endsWith('.xlsx')) {
+      thumbEl.innerHTML = `<i class="fa-solid fa-file-excel text-success"></i>`;
+    } else {
+      thumbEl.innerHTML = `<i class="fa-solid fa-file text-muted"></i>`;
+    }
+  }
+
+  // Tự động gợi ý tên minh chứng từ tên file nếu ô title đang trống
+  const titleInput = document.getElementById('evTitle');
+  if (titleInput && (!titleInput.value || titleInput.value.trim().length === 0)) {
+    const rawName = file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' ');
+    titleInput.value = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+  }
+}
+
+// 5. Khởi tạo toàn bộ sự kiện liên quan tới Google Drive
+document.addEventListener('DOMContentLoaded', () => {
+  // Nạp lại minh chứng đã lưu từ localStorage
+  loadEvidenceFromLocal();
+  updateDriveStatusUI();
+
+  // --- Modal Cấu Hình Drive ---
+  const modalDriveConfig = document.getElementById('modalDriveConfig');
+  const openDriveConfig = () => {
+    const cfg = getDriveConfig();
+    const urlInput = document.getElementById('driveScriptUrlInput');
+    const folderInput = document.getElementById('driveDefaultFolderIdInput');
+    if (urlInput) urlInput.value = cfg.scriptUrl || '';
+    if (folderInput) folderInput.value = cfg.defaultFolderId || '';
+    modalDriveConfig?.classList.add('active');
+  };
+
+  const closeDriveConfig = () => {
+    modalDriveConfig?.classList.remove('active');
+  };
+
+  document.getElementById('btnOpenDriveCenter')?.addEventListener('click', openDriveConfig);
+  document.getElementById('btnDriveStatusBadge')?.addEventListener('click', openDriveConfig);
+  document.getElementById('btnConfigDriveFromModal')?.addEventListener('click', openDriveConfig);
+  document.getElementById('closeDriveConfig')?.addEventListener('click', closeDriveConfig);
+  document.getElementById('btnCancelDriveConfig')?.addEventListener('click', closeDriveConfig);
+
+  // Lưu cấu hình
+  document.getElementById('btnSaveDriveConfig')?.addEventListener('click', () => {
+    const scriptUrl = (document.getElementById('driveScriptUrlInput')?.value || '').trim();
+    const defaultFolderId = (document.getElementById('driveDefaultFolderIdInput')?.value || '').trim();
+
+    if (scriptUrl && !scriptUrl.startsWith('https://script.google.com/macros/s/')) {
+      if (!confirm('URL không có định dạng chuẩn Google Apps Script (/exec). Bạn có chắc muốn lưu URL này?')) {
+        return;
+      }
+    }
+
+    saveDriveConfig({ scriptUrl, defaultFolderId });
+    showToast('Đã lưu cấu hình Google Drive thành công!', 'success');
+    closeDriveConfig();
+  });
+
+  // Kiểm tra kết nối Script (Ping)
+  document.getElementById('btnTestDriveConnection')?.addEventListener('click', async () => {
+    const scriptUrl = (document.getElementById('driveScriptUrlInput')?.value || '').trim();
+    if (!scriptUrl) {
+      alert('Vui lòng nhập URL Web App trước khi kiểm tra!');
+      return;
+    }
+    const btn = document.getElementById('btnTestDriveConnection');
+    const oldHtml = btn.innerHTML;
+    btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Đang test...`;
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(scriptUrl, { method: 'GET', mode: 'cors' });
+      const data = await res.json();
+      alert(`✅ Kết nối thành công!\nPhản hồi từ Google Apps Script: ${JSON.stringify(data)}`);
+    } catch (e) {
+      alert(`⚠️ Lưu ý: Google Apps Script có thể đã chạy nhưng bị hạn chế CORS ở lệnh GET test.\nBạn hãy kiểm tra quyền truy cập của Web App đã chọn "Anyone" (Bất kỳ ai) chưa, hoặc bấm "Lưu Cấu Hình" và thử upload một tệp trực tiếp!`);
+    } finally {
+      btn.innerHTML = oldHtml;
+      btn.disabled = false;
+    }
+  });
+
+  // Sao chép code Apps Script mẫu
+  document.getElementById('btnCopyDriveScriptCode')?.addEventListener('click', () => {
+    const codeText = document.getElementById('driveScriptCodePreview')?.innerText || '';
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(codeText).then(() => {
+        showToast('Đã sao chép mã Google Apps Script vào Clipboard!', 'success');
+      });
+    } else {
+      showToast('Hãy chọn và copy đoạn code thủ công!', 'info');
+    }
+  });
+
+  // --- Modal Thêm Minh Chứng: Drag & Drop và Upload File ---
+  const evFileInput = document.getElementById('evFileInput');
+  const evDropArea = document.getElementById('evDriveDropArea');
+
+  if (evDropArea && evFileInput) {
+    evDropArea.addEventListener('click', () => evFileInput.click());
+    evFileInput.addEventListener('change', (e) => {
+      const file = e.target.files?.[0];
+      if (file) handleEvidenceFileSelected(file);
+    });
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      evDropArea.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        evDropArea.classList.add('dragover');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      evDropArea.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        evDropArea.classList.remove('dragover');
+      });
+    });
+
+    evDropArea.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      const file = dt.files?.[0];
+      if (file) handleEvidenceFileSelected(file);
+    });
+  }
+
+  // Bỏ chọn file
+  document.getElementById('btnRemoveSelectedFile')?.addEventListener('click', resetEvidenceUploadUI);
+
+  // Nút bấm "Tải Lên Drive" trong modal Minh Chứng
+  document.getElementById('btnUploadEvidenceToDrive')?.addEventListener('click', async () => {
+    if (!currentEvidenceFile) {
+      showToast('Vui lòng chọn một tệp trước!', 'warning');
+      return;
+    }
+
+    const cfg = getDriveConfig();
+    if (!cfg.scriptUrl) {
+      if (confirm('Bạn chưa cấu hình URL Google Apps Script. Mở cài đặt ngay bây giờ?')) {
+        openDriveConfig();
+      }
+      return;
+    }
+
+    const btn = document.getElementById('btnUploadEvidenceToDrive');
+    const statusBox = document.getElementById('evUploadStatus');
+    const statusText = document.getElementById('evUploadStatusText');
+    const progressBar = document.getElementById('evUploadProgressBar');
+
+    btn.disabled = true;
+    if (statusBox) statusBox.classList.remove('hidden');
+
+    try {
+      const folderId = document.getElementById('evFolderSelect')?.value || cfg.defaultFolderId;
+      const res = await uploadFileToDrive(currentEvidenceFile, folderId, (pct, msg) => {
+        if (progressBar) progressBar.style.width = pct + '%';
+        if (statusText) statusText.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-primary"></i> ${msg}`;
+      });
+
+      // Ghi URL vào input form
+      if (res.url) {
+        const driveUrlInput = document.getElementById('evDriveUrl');
+        if (driveUrlInput) driveUrlInput.value = res.url;
+
+        // Nếu là ảnh, tạo trực tiếp preview url hoặc link hiển thị
+        if (currentEvidenceFile.type.startsWith('image/')) {
+          const imgUrlInput = document.getElementById('evImageUrl');
+          if (imgUrlInput && res.fileId) {
+            imgUrlInput.value = `https://lh3.googleusercontent.com/d/${res.fileId}=s1000`;
+          }
+        }
+      }
+
+      if (statusText) {
+        statusText.innerHTML = `<i class="fa-solid fa-circle-check text-success"></i> <strong>Tải lên Google Drive thành công!</strong> (<a href="${res.url}" target="_blank" style="color:var(--bdu-primary); text-decoration:underline;">Xem trên Drive</a>)`;
+      }
+      showToast(`Đã tải tệp "${currentEvidenceFile.name}" lên Google Drive!`, 'success');
+    } catch (err) {
+      console.error(err);
+      if (statusText) {
+        statusText.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-danger"></i> <strong>Lỗi:</strong> ${err.message}`;
+      }
+      showToast(err.message, 'danger');
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  // --- Modal Tải Nhanh Tệp Lên Google Drive (Fast Uploader) ---
+  const modalQuickDrive = document.getElementById('modalQuickDriveUpload');
+  let currentQuickFile = null;
+
+  const openQuickDriveModal = () => {
+    currentQuickFile = null;
+    const fileInput = document.getElementById('quickDriveFileInput');
+    if (fileInput) fileInput.value = '';
+    document.getElementById('quickDriveDropArea')?.classList.remove('hidden');
+    document.getElementById('quickSelectedFileInfo')?.classList.add('hidden');
+    document.getElementById('quickUploadStatus')?.classList.add('hidden');
+    document.getElementById('quickUploadResultBox')?.classList.add('hidden');
+    const startBtn = document.getElementById('btnStartQuickDriveUpload');
+    if (startBtn) startBtn.disabled = true;
+    modalQuickDrive?.classList.add('active');
+  };
+
+  const closeQuickDriveModal = () => {
+    modalQuickDrive?.classList.remove('active');
+  };
+
+  document.getElementById('btnOpenQuickUploadModal')?.addEventListener('click', openQuickDriveModal);
+  document.getElementById('closeQuickDriveUpload')?.addEventListener('click', closeQuickDriveModal);
+  document.getElementById('btnCancelQuickDriveUpload')?.addEventListener('click', closeQuickDriveModal);
+
+  const quickFileInput = document.getElementById('quickDriveFileInput');
+  const quickDropArea = document.getElementById('quickDriveDropArea');
+
+  const handleQuickFileSelected = (file) => {
+    if (!file) return;
+    currentQuickFile = file;
+    document.getElementById('quickDriveDropArea')?.classList.add('hidden');
+    document.getElementById('quickSelectedFileInfo')?.classList.add('hidden');
+    document.getElementById('quickUploadResultBox')?.classList.add('hidden');
+
+    const infoBox = document.getElementById('quickSelectedFileInfo');
+    if (infoBox) infoBox.classList.remove('hidden');
+    const nameEl = document.getElementById('quickFileName');
+    const sizeEl = document.getElementById('quickFileSize');
+    if (nameEl) nameEl.textContent = file.name;
+    if (sizeEl) sizeEl.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+
+    const startBtn = document.getElementById('btnStartQuickDriveUpload');
+    if (startBtn) startBtn.disabled = false;
+  };
+
+  if (quickFileInput) {
+    quickFileInput.addEventListener('change', (e) => {
+      const file = e.target.files?.[0];
+      if (file) handleQuickFileSelected(file);
+    });
+  }
+
+  if (quickDropArea) {
+    ['dragenter', 'dragover'].forEach(ev => quickDropArea.addEventListener(ev, e => { e.preventDefault(); quickDropArea.classList.add('dragover'); }));
+    ['dragleave', 'drop'].forEach(ev => quickDropArea.addEventListener(ev, e => { e.preventDefault(); quickDropArea.classList.remove('dragover'); }));
+    quickDropArea.addEventListener('drop', (e) => {
+      const file = e.dataTransfer.files?.[0];
+      if (file) handleQuickFileSelected(file);
+    });
+  }
+
+  document.getElementById('quickBtnRemoveFile')?.addEventListener('click', () => {
+    currentQuickFile = null;
+    document.getElementById('quickDriveDropArea')?.classList.remove('hidden');
+    document.getElementById('quickSelectedFileInfo')?.classList.add('hidden');
+    document.getElementById('quickUploadResultBox')?.classList.add('hidden');
+    const startBtn = document.getElementById('btnStartQuickDriveUpload');
+    if (startBtn) startBtn.disabled = true;
+  });
+
+  // Bắt đầu tải lên trong Quick Uploader
+  document.getElementById('btnStartQuickDriveUpload')?.addEventListener('click', async () => {
+    if (!currentQuickFile) return;
+
+    const cfg = getDriveConfig();
+    if (!cfg.scriptUrl) {
+      if (confirm('Bạn chưa cấu hình URL Google Apps Script. Mở cài đặt ngay bây giờ?')) {
+        closeQuickDriveModal();
+        openDriveConfig();
+      }
+      return;
+    }
+
+    const btn = document.getElementById('btnStartQuickDriveUpload');
+    const statusBox = document.getElementById('quickUploadStatus');
+    const statusText = document.getElementById('quickUploadStatusText');
+    const bar = document.getElementById('quickUploadProgressBar');
+
+    btn.disabled = true;
+    if (statusBox) statusBox.classList.remove('hidden');
+
+    try {
+      const res = await uploadFileToDrive(currentQuickFile, cfg.defaultFolderId, (pct, msg) => {
+        if (bar) bar.style.width = pct + '%';
+        if (statusText) statusText.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-primary"></i> ${msg}`;
+      });
+
+      if (statusBox) statusBox.classList.add('hidden');
+      const resultBox = document.getElementById('quickUploadResultBox');
+      const urlInput = document.getElementById('quickResultDriveUrl');
+      const openBtn = document.getElementById('quickResultOpenDriveBtn');
+
+      if (resultBox) resultBox.classList.remove('hidden');
+      if (urlInput) urlInput.value = res.url;
+      if (openBtn) openBtn.href = res.url;
+
+      showToast('Đã tải tệp lên Google Drive thành công!', 'success');
+    } catch (err) {
+      if (statusText) {
+        statusText.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-danger"></i> <strong>Lỗi:</strong> ${err.message}`;
+      }
+      showToast(err.message, 'danger');
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  // Sao chép link kết quả trong Quick Uploader
+  document.getElementById('btnCopyQuickDriveUrl')?.addEventListener('click', () => {
+    const url = document.getElementById('quickResultDriveUrl')?.value || '';
+    if (url && navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(() => {
+        showToast('Đã sao chép link Google Drive vào Clipboard!', 'success');
+      });
+    }
+  });
 });
