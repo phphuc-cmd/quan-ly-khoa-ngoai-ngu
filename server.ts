@@ -418,7 +418,6 @@ function generateSmartFallbackExam(params: {
       });
     }
   }
-
   return {
     examHeader: {
       university: "TRƯỜNG ĐẠI HỌC BÌNH DƯƠNG",
@@ -465,5 +464,4 @@ function generateSmartFallbackExam(params: {
     ],
   };
 }
-
 startServer();
